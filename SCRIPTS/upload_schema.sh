@@ -1,0 +1,10 @@
+#!/bin/bash
+# Upload schema.sql to Project Drive
+curl -sSL -X PUT \
+  -H "Authorization: q-ak=AKIDRvPmOQN1LHglwZXUOL4M8DkzF8M1QW_oUbXB5TH4CM4YK7hlBt-XVeCrOKmUEx99&q-header-list=host;x-cos-acl;x-cos-storage-class&q-key-time=1783685791;1783692991&q-sign-algorithm=sha1&q-sign-time=1783685791;1783692991&q-signature=2283054a49fee610f233343ed7081d2f7d6ff314&q-url-param-list=" \
+  -H "x-cos-acl: default" \
+  -H "x-cos-storage-class: INTELLIGENT_TIERING" \
+  -H "x-cos-security-token: UoHeIDT6k6gnOdN1UC2Gz2sNpzNeuega1e32fd27cd0263f75195aa16ab816859Gw7afVBU4jeAU66rAbxHSgWwfV5o46zj2fJIFOES9lrfR24NXCBKRg-9AIddkxZtG-EpYCk4X2fc_JRNerg9oxVNzNIYfJvxdis_Cbl-9pmgC0M09Ka4P2RkI928jfGywHJN8TcO8Hjw6t-eTq6UhS_KmwW9eW9Q9004nUReG4t3Ps4dbnEN_Q9hvxd5PqpsF1PVAhYvVr91Zn8XH_VZTztFjrDsbDxoXMRSQ9Z2xKowvTkGun9PWUnasBwdeUwDCqvgBEBv81iNzlZbCZd2Df57HZLmRYCiMr2ZP6cU7NPWNpJgVk-JjnXeFxWqFq00RlEutW0vghuS0DEog3lKuwk31jyTrVTBTp_ilmjT3VHfTIwJtkHv3bGhrWd8pfgCZjQYdKbMXUPmTT5XdywWomJeB484N5NQQqnMredHEReGw9tjgsU6oTP-CKXeaJ0-a17DmAuna6dPZ71RvGltvxtUObkfPm946Wdyk_NpXbvT2jGrP26yITsfRoFrPCb3WmZebfmbozOfR7e3XSJfYI2KuIjrqDB7HrVxD_3VU6bzxVW4SF4IFgOodxe9lE-Y1oZqUnmr6g1vnWqcKgeL_G1HwgG9N_Hyrzo94UbynXEYtOUKNfzypuhTTOB9zqQfyn8fGpW0c6kIT3emhCmOFXRmAwI_QzFjl5drq5tifFt1FzOo27nJMRKGAhp6UcW7D6bifrRTsrjYfUTFb2SyyKwxAVZR-RhoPg9mxuVQYciKUkaA6QdIrVc5U3zxxblY-3jETGpnhFU06Tt5Nlta8FsD5Se5FkgkieeEVXlnEd3_mZjRamW9PYcuLZNnQIoEtrzFWrh5wBBgXoQggI25gx7wEpCm3QIGhocME418fF1qn94uZPYaxprfEz_niaqwQwf2aoYlvVYGv8mFrK0fHCZUSOhzX4uO0V_X7aqNn-cDG_tOBzq1HLHUmF4QABzw" \
+  -T "/workspace/DB/schema.sql" \
+  "https://smhwb-gz-002.data-tencentsmh.com/smh2mf8nq7i9cemv/b7894a750293763b00000000000000008a28211636b809e200065640b5faf45f.sql"
+echo "EXIT: $?"

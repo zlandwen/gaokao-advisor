@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>🧠 高考升学规划 - 雪峰人式问答</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .app { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; padding: 30px 20px; color: white; }
+        .header h1 { font-size: 28px; margin-bottom: 8px; }
+        .header p { opacity: 0.8; font-size: 14px; line-height: 1.6; }
+        .header .tagline { color: #fbbf24; font-size: 13px; margin-top: 8px; }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .step-dot {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+            background: #e8ecf4;
+            color: #999;
+        }
+        .step-dot.active { background: #4a6cf7; color: white; }
+        .step-dot.done { background: #d1fae5; color: #065f46; }
+        
+        .class-card {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            border: 2px solid #e8ecf4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .class-card:hover { border-color: #4a6cf7; }
+        .class-card.selected { border-color: #4a6cf7; background: #f0f3ff; }
+        .class-card .label { font-size: 16px; font-weight: 600; }
+        .class-card .desc { font-size: 13px; color: #666; margin-top: 4px; }
+        .class-card .zxf-says { 
+            font-size: 12px; color: #92400e; margin-top: 6px; 
+            background: #fef3c7; padding: 6px 10px; border-radius: 6px;
+            display: none;
+        }
+        .class-card.selected .zxf-says { display: block; }
+        
+        .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .form-row input, .form-row select {
+            flex: 1; min-width: 150px; padding: 10px 14px;
+            border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+        }
+        .form-row input:focus, .form-row select:focus {
+            outline: none; border-color: #4a6cf7;
+        }
+        
+        .btn-primary {
+            background: #4a6cf7; color: white; border: none;
+            padding: 12px 32px; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            width: 100%; transition: background 0.2s;
+        }
+        .btn-primary:hover { background: #3a5ce5; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .btn-small {
+            background: #f0f3ff; color: #4a6cf7; border: 1px solid #dbeafe;
+            padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;
+        }
+        .btn-small:hover { background: #dbeafe; }
+        
+        .section { display: none; }
+        .section.active { display: block; }
+        
+        .zxf-popup {
+            background: #fef3c7; border: 1px solid #fbbf24;
+            border-radius: 10px; padding: 14px 18px; margin: 12px 0;
+            font-size: 14px; color: #92400e; line-height: 1.6;
+        }
+        .zxf-popup::before { content: "🧠 雪峰人说："; font-weight: 600; }
+        
+        .loading {
+            text-align: center; padding: 40px; color: #999;
+        }
+        .loading .spinner {
+            display: inline-block; width: 32px; height: 32px;
+            border: 3px solid #eee; border-top-color: #4a6cf7;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .score-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .score-table th { background: #f5f7fb; padding: 10px 12px; text-align: left; font-weight: 500; color: #666; font-size: 12px; }
+        .score-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+        
+        .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+        .badge-green { background: #d1fae5; color: #065f46; }
+        .badge-yellow { background: #fef3c7; color: #92400e; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        
+        .uni-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        .uni-card { background: #f8f9fc; border-radius: 10px; padding: 14px; border: 1px solid #e8ecf4; }
+        .uni-card .name { font-weight: 600; font-size: 14px; }
+        .uni-card .detail { color: #888; font-size: 12px; margin-top: 4px; }
+        .uni-card .score { color: #4a6cf7; font-weight: 600; font-size: 18px; }
+        
+        .major-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .major-item:last-child { border-bottom: none; }
+        .major-priority { font-size: 20px; margin-right: 12px; }
+        .major-name { font-weight: 600; font-size: 14px; }
+        .major-reason { color: #888; font-size: 12px; margin-top: 2px; }
+        
+        .timeline-item { padding: 14px; background: #f8f9fc; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid #4a6cf7; }
+        .timeline-item .period { font-weight: 600; font-size: 13px; color: #4a6cf7; margin-bottom: 8px; }
+        .timeline-item .task { font-size: 13px; color: #555; padding: 3px 0; padding-left: 16px; }
+        .timeline-item .task::before { content: "›"; position: absolute; left: 4px; color: #999; }
+        
+        .info-tag { background: #f0f3ff; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #4a6cf7; display: inline-block; margin: 3px; }
+        .error-msg { background: #fee2e2; color: #991b1b; padding: 16px; border-radius: 10px; text-align: center; }
+        
+        .footer { text-align: center; padding: 20px; color: rgba(255,255,255,0.5); font-size: 12px; }
+        
+        /* 聊天面板 */
+        .chat-panel {
+            position: fixed; bottom: 20px; right: 20px; width: 380px; max-height: 550px;
+            background: white; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+            display: none; flex-direction: column; z-index: 1000;
+            overflow: hidden; border: 1px solid #e8ecf4;
+        }
+        .chat-panel.open { display: flex; }
+        .chat-header {
+            background: #4a6cf7; color: white; padding: 14px 18px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .chat-header .title { font-weight: 600; font-size: 14px; }
+        .chat-close { cursor: pointer; font-size: 20px; opacity: 0.8; }
+        .chat-close:hover { opacity: 1; }
+        .chat-msgs {
+            flex: 1; overflow-y: auto; padding: 16px; min-height: 250px;
+            background: #f8f9fc;
+        }
+        .chat-msg { margin-bottom: 14px; display: flex; }
+        .chat-msg.user { justify-content: flex-end; }
+        .chat-msg .bubble {
+            max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5;
+        }
+        .chat-msg.bot .bubble { background: white; color: #333; border: 1px solid #e8ecf4; }
+        .chat-msg.user .bubble { background: #4a6cf7; color: white; }
+        .chat-input-area {
+            display: flex; padding: 12px; border-top: 1px solid #e8ecf4;
+            background: white; gap: 8px;
+        }
+        .chat-input-area input {
+            flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none;
+        }
+        .chat-input-area input:focus { border-color: #4a6cf7; }
+        .chat-input-area button {
+            background: #4a6cf7; color: white; border: none; border-radius: 8px;
+            padding: 10px 18px; font-size: 13px; cursor: pointer; white-space: nowrap;
+        }
+        .chat-input-area button:disabled { background: #ccc; cursor: not-allowed; }
+        .chat-loading { font-size: 12px; color: #888; padding: 8px 0; text-align: center; }
+        
+        @media (max-width: 600px) { .chat-panel { width: 100%; right: 0; bottom: 0; border-radius: 16px 16px 0 0; max-height: 80vh; } }
+        
+        @media (max-width: 600px) { .card { padding: 18px; } }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <h1>🧠 高考升学规划</h1>
+        <p>先问家里做什么的，再给建议——雪峰人式问答</p>
+        <div class="tagline">⚠️ 不先回答家庭背景，我不会给你推荐</div>
+    </div>
+
+    <!-- ====== 快速入口：燃爆 & 挺饱 ====== -->
+    <div class="card">
+        <div class="card-title">🔥 快速查看专属方案</div>
+        <p style="font-size:13px;color:#666;margin-bottom:12px;">点击直接查看两位核心用户的完整升学方案（含成绩排名、强基综评分析、专业推荐）</p>
+        <div style="display:flex;gap:12px;">
+            <button class="user-btn" onclick="checkPassword('燃爆')" style="flex:1;padding:14px;border-radius:10px;border:2px solid #f97316;background:#fff7ed;cursor:pointer;font-size:15px;font-weight:600;transition:all 0.2s;">
+                🔥 燃爆<br><span style="font-size:12px;font-weight:400;color:#666;">深圳科学高中 · 年级前10</span>
+            </button>
+            <button class="user-btn" onclick="checkPassword('挺饱')" style="flex:1;padding:14px;border-radius:10px;border:2px solid #22c55e;background:#f0fdf4;cursor:pointer;font-size:15px;font-weight:600;transition:all 0.2s;">
+                🍜 挺饱<br><span style="font-size:12px;font-weight:400;color:#666;">深北莫附中 · 年级50-100名</span>
+            </button>
+        </div>
+        <div id="quickResult" style="margin-top:12px;"></div>
+    </div>
+
+    <div style="text-align:center;margin:16px 0;color:rgba(255,255,255,0.6);font-size:13px;">
+        — 或者自己来 —
+    </div>
+
+    <!-- ====== 步骤进度 ====== -->
+    <div class="step-indicator">
+        <div class="step-dot" id="step1">① 家庭背景</div>
+        <div class="step-dot" id="step2">② 成绩信息</div>
+        <div class="step-dot" id="step3">③ 推荐方案</div>
+    </div>
+
+    <!-- ====== 第一步：阶级追问（模块2） ====== -->
+    <div class="card section active" id="section1">
+        <div class="card-title">🏠 第一步：你家里做什么的？</div>
+        <div class="zxf-popup">普通家庭、中产家庭、还是A8以上家庭？不同家庭的选专业策略完全不一样。你不说我怎么给你建议？</div>
+        
+        <div class="class-card" onclick="selectClass(this, 'A8')">
+            <div class="label">💰 A8-A9级别（资产千万至亿级）</div>
+            <div class="desc">父母开公司/企业主/高管/海外有资产</div>
+            <div class="zxf-says">🧠 雪峰人：家里有资源，金融/商科/创业/出国全部打开。但门槛不变——必须顶尖院校。</div>
+        </div>
+        <div class="class-card" onclick="selectClass(this, 'A5-A7')">
+            <div class="label">💼 中产家庭（年收入30-100万）</div>
+            <div class="desc">父母是专业人士/中层管理/双职工</div>
+            <div class="zxf-says">🧠 雪峰人：中产家庭选计算机/电子/医学，进可攻退可守。别学高风险长周期专业。</div>
+        </div>
+        <div class="class-card" onclick="selectClass(this, 'A5')">
+            <div class="label">🔧 普通工薪/农村家庭（年收入30万以下）</div>
+            <div class="desc">父母打工/务农/普通职工/无额外资源</div>
+            <div class="zxf-says">🧠 雪峰人：生存优先！选公费师范/计算机/护理/电气。别学医、别学金融、别学新闻——你家里扛不住。</div>
+        </div>
+
+        <div style="margin-top:16px;">
+            <button class="btn-primary" id="btnStep1" onclick="goStep2()" disabled>我已选择家庭背景 → 填写成绩</button>
+        </div>
+    </div>
+
+    <!-- ====== 第二步：成绩信息（模块3：数据驱动） ====== -->
+    <div class="card section" id="section2">
+        <div class="card-title">📊 第二步：你的分数和选科</div>
+        
+        <div class="form-row">
+            <input type="text" id="name" placeholder="你的名字" value="">
+            <input type="text" id="school" placeholder="学校名称" value="">
+        </div>
+        <div class="form-row">
+            <select id="subjectType">
+                <option value="物理类">物理类</option>
+                <option value="历史类">历史类</option>
+            </select>
+            <input type="number" id="score" placeholder="预估高考分数（如 630）" min="300" max="750">
+        </div>
+        <div class="form-row">
+            <input type="text" id="majors" placeholder="想学的专业（选填，逗号分隔）" value="">
+            <input type="text" id="interests" placeholder="个人偏好（选填）" value="">
+        </div>
+        
+        <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="btn-small" onclick="goStep1()">← 重新选家庭背景</button>
+            <button class="btn-primary" onclick="submitRecommend()">🎯 生成雪峰人式方案</button>
+        </div>
+    </div>
+
+    <!-- ====== 第三步：推荐结果 ====== -->
+    <div class="card section" id="section3">
+        <div id="resultArea"></div>
+    </div>
+
+    <div class="footer">高考升学规划 · 雪峰人式问答 · 先问背景再给建议</div>
+</div>
+
+<!-- ====== 聊天面板 ====== -->
+<div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+        <span class="title">💬 对话顾问</span>
+        <span class="chat-close" onclick="closeChat()">✕</span>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg bot">
+            <div class="bubble">你好！我是你的升学顾问。有什么想问的尽管说——选专业、挑学校、学习方法、焦虑情绪，什么都能聊。😊</div>
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter') sendChat()" autocomplete="off">
+        <button id="chatSendBtn" onclick="sendChat()">发送</button>
+    </div>
+</div>
+
+<script>
+let selectedClass = '';
+let userData = {};
+
+function selectClass(el, cls) {
+    document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedClass = cls;
+    document.getElementById('btnStep1').disabled = false;
+    
+    // 滚动到按钮
+    document.getElementById('btnStep1').scrollIntoView({behavior:'smooth'});
+}
+
+function goStep1() {
+    document.getElementById('section1').classList.add('active');
+    document.getElementById('section2').classList.remove('active');
+    document.getElementById('section3').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.remove('active');
+}
+
+function goStep2() {
+    document.getElementById('section1').classList.remove('active');
+    document.getElementById('section2').classList.add('active');
+    document.getElementById('section3').classList.remove('active');
+    document.getElementById('step1').classList.add('done');
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('step3').classList.remove('active');
+    
+    // 根据家庭背景在输入框加提示
+    const majorsInput = document.getElementById('majors');
+    if (selectedClass === 'A5') {
+        majorsInput.placeholder = '推荐：计算机/电子/师范/护理/电气';
+    } else if (selectedClass === 'A5-A7') {
+        majorsInput.placeholder = '推荐：计算机/AI/电子/医学/法学';
+    } else if (selectedClass === 'A8') {
+        majorsInput.placeholder = '推荐：商科/金融/计算机/AI/出国留学路径';
+    }
+}
+
+// ====== 密码保护 ======
+function checkPassword(name) {
+    const pwd = prompt('🔒 请输入密码查看 ' + name + ' 的详细方案：');
+    if (pwd === 'F1-1402') {
+        loadQuickUser(name, true);
+    } else if (pwd !== null) {
+        alert('❌ 密码错误，无法查看。');
+    }
+}
+
+async function loadQuickUser(name, skipAuth) {
+    // 如果没传skipAuth标记且不是从密码验证来的，弹密码框
+    if (!skipAuth) {
+        checkPassword(name);
+        return;
+    }
+    const resultDiv = document.getElementById('quickResult');
+    resultDiv.innerHTML = '<div style="text-align:center;padding:20px;color:#999;"><div style="display:inline-block;width:32px;height:32px;border:3px solid #eee;border-top-color:#4a6cf7;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:8px;"></div><br>加载中...</div>';
+    
+    try {
+        const resp = await fetch('/api/recommend?user=' + encodeURIComponent(name));
+        if (!resp.ok) {
+            resultDiv.innerHTML = `<div class="error-msg">❌ 服务器错误: ${resp.status}</div>`;
+            return;
+        }
+        const data = await resp.json();
+        if (data.error) {
+            resultDiv.innerHTML = `<div class="error-msg">❌ ${data.error}</div>`;
+            return;
+        }
+        try {
+            renderQuickResult(data, name);
+        } catch(e) {
+            resultDiv.innerHTML = `<div class="error-msg">❌ 渲染错误: ${e.message}</div>`;
+        }
+    } catch(e) {
+        resultDiv.innerHTML = `<div class="error-msg">❌ 网络错误: ${e.message}</div>`;
+    }
+}
+
+function renderQuickResult(d, name) {
+    // 安全检查
+    if (!d || !d.user_name) {
+        document.getElementById('quickResult').innerHTML = '<div class="error-msg">❌ 数据异常</div>';
+        return;
+    }
+    const emoji = name === '燃爆' ? '🔥' : '🍜';
+    let html = `
+        <div style="background:#f8f9fc;border-radius:12px;padding:18px;margin-top:8px;border:2px solid ${name==='燃爆'?'#f97316':'#22c55e'};">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-weight:600;font-size:16px;">${emoji} ${d.user_name}</span>
+            <span style="font-size:12px;color:#888;">🏫 ${d.user_school}</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+            <span class="info-tag">🎯 ${d.estimated_score_min}-${d.estimated_score_max}分</span>
+            <span class="info-tag">省排${d.estimated_province_rank_min}-${d.estimated_province_rank_max}</span>
+            <span class="info-tag">${d.segment.level}</span>
+        </div>`;
+    
+    // 成绩表（简要）
+    if (d.exam_scores && Object.keys(d.exam_scores).length) {
+        const subjects = Object.keys(d.exam_scores);
+        const schoolSize = d.school_size || 500;
+        html += `<table class="score-table" style="font-size:12px;margin-bottom:10px;">
+            <tr><th>科目</th><th>分数</th><th>排名</th><th>评价</th></tr>`;
+        for (const s of subjects) {
+            const rank = d.exam_ranks?.[s] || 0;
+            const pct = rank / schoolSize;
+            const badge = pct <= 0.10 ? 'badge-green' : pct <= 0.25 ? 'badge-yellow' : 'badge-red';
+            const label = pct <= 0.10 ? '优势' : pct <= 0.25 ? '中等' : '偏弱';
+            html += `<tr><td>${s}</td><td>${d.exam_scores[s]}</td><td>#${rank}</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
+        }
+        html += `</table>`;
+    }
+    
+    // 家底
+    if (d.family_background) {
+        html += `<div class="zxf-popup" style="margin:8px 0;">${d.family_background}。${d.family_implication}</div>`;
+    }
+    
+    // 详细方案下载链接
+    const planFile = name === '燃爆' ? '燃爆_详细作战方案.md' : '挺饱_详细作战方案.md';
+    html += `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;margin:10px 0;font-size:13px;">
+        📋 <strong>完整方案已生成</strong> — 包含每学期安排+强基综评具体要求+专业推荐
+        <div style="margin-top:6px;display:flex;gap:8px;">
+            <a href="/${planFile}" download style="background:#2563eb;color:white;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:12px;">⬇ 下载完整PDF版</a>
+            <span style="font-size:11px;color:#666;align-self:center;">约40页详细规划</span>
+        </div>
+    </div>`;
+    
+    // 专业推荐（前5个）
+    if (d.majors && d.majors.length) {
+        html += `<div style="font-weight:600;font-size:13px;margin-bottom:6px;">💼 专业推荐 (Top 5)：</div>`;
+        for (let i = 0; i < Math.min(5, d.majors.length); i++) {
+            const m = d.majors[i];
+            html += `<div style="font-size:13px;padding:4px 0;border-bottom:1px solid #f0f0f0;">
+                ${m.priority.includes('🥇')?'🥇':m.priority.includes('🥈')?'🥈':'📌'} <strong>${m.major}</strong>
+                <span style="color:#666;">— ${m.reason.substring(0,40)}…</span>
+            </div>`;
+        }
+    }
+    
+    html += `<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn-small" onclick="showUpdateForm('${d.user_name}')" style="font-size:12px;">📝 补充新成绩</button>
+        <button class="btn-small" onclick="openChat('${d.user_name}')" style="font-size:12px;background:#fef3c7;border-color:#fbbf24;">💬 对话</button>
+        <button class="btn-small" onclick="document.getElementById('quickResult').innerHTML=''" style="font-size:12px;">收起</button>
+    </div></div>`;
+    
+    if (d.has_updates) {
+        html += `<div style="font-size:11px;color:#888;text-align:right;margin-top:4px;">已补充${d.update_count||0}次学业信息 ✓</div>`;
+    }
+    
+    document.getElementById('quickResult').innerHTML = html;
+}
+
+// ====== 补充信息表单（模块6：学业轨迹追踪） ======
+function showUpdateForm(userName) {
+    const resultDiv = document.getElementById('quickResult');
+    resultDiv.innerHTML = `
+    <div style="background:#f8f9fc;border-radius:12px;padding:18px;margin-top:8px;border:2px solid #4a6cf7;">
+        <div style="font-weight:600;font-size:15px;margin-bottom:4px;">📝 补充 ${userName} 的最新学业信息</div>
+        <div style="font-size:12px;color:#888;margin-bottom:12px;">填完后会自动用最新数据重新生成推荐方案</div>
+        
+        <div style="font-size:13px;font-weight:500;margin:8px 0 4px;">📊 最新考试成绩</div>
+        <div class="form-row">
+            <input type="number" id="updScore" placeholder="总分（如 650）" style="flex:1;">
+            <input type="number" id="updRank" placeholder="年级排名（如 5）" style="flex:1;">
+        </div>
+        
+        <div style="font-size:13px;font-weight:500;margin:8px 0 4px;">📝 单科成绩（选填）</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <input type="number" id="updMath" placeholder="数学" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updPhy" placeholder="物理" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updChem" placeholder="化学" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updBio" placeholder="生物" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updEng" placeholder="英语" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updChn" placeholder="语文" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+            <input type="number" id="updGeo" placeholder="地理" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;">
+        </div>
+        
+        <div style="font-size:13px;font-weight:500;margin:8px 0 4px;">🎯 人生方向更新（选填）</div>
+        <div class="form-row">
+            <input type="text" id="updMajors" placeholder="当前想学的专业（逗号分隔）" style="flex:2;">
+            <input type="text" id="updInterests" placeholder="新的想法/目标" style="flex:2;">
+        </div>
+        <div class="form-row">
+            <input type="text" id="updDirection" placeholder="人生方向/职业规划（如：想创业/接班/考研）" style="flex:1;">
+        </div>
+        
+        <div style="display:flex;gap:8px;margin-top:12px;">
+            <button class="btn-small" onclick="loadQuickUser('${userName}', true)">← 返回</button>
+            <button class="btn-primary" onclick="submitUpdate('${userName}')" style="font-size:14px;padding:10px;">💾 保存并刷新方案</button>
+        </div>
+    </div>`;
+}
+
+async function submitUpdate(userName) {
+    const data = {user: userName};
+    
+    // 收集成绩更新
+    const scores = {};
+    const map = {updMath:'数学', updPhy:'物理', updChem:'化学', updBio:'生物', updEng:'英语', updChn:'语文', updGeo:'地理'};
+    for (const [id, subj] of Object.entries(map)) {
+        const v = document.getElementById(id)?.value;
+        if (v) scores[subj] = parseFloat(v);
+    }
+    if (Object.keys(scores).length) data.exam_scores = scores;
+    
+    const rankScore = document.getElementById('updScore')?.value;
+    if (rankScore) data.estimated_score = parseInt(rankScore);
+    
+    const majors = document.getElementById('updMajors')?.value;
+    if (majors) data.target_majors_priority = majors.split(/[，,]/).map(s=>s.trim()).filter(Boolean);
+    
+    const interests = document.getElementById('updInterests')?.value;
+    if (interests) data.interests = interests;
+    
+    const direction = document.getElementById('updDirection')?.value;
+    if (direction) data.life_direction = direction;
+    
+    if (Object.keys(data).length <= 1) {
+        alert('至少填一项才能更新');
+        return;
+    }
+    
+    const resultDiv = document.getElementById('quickResult');
+    resultDiv.innerHTML = '<div style="text-align:center;padding:20px;color:#999;"><div style="display:inline-block;width:32px;height:32px;border:3px solid #eee;border-top-color:#4a6cf7;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:8px;"></div><br>更新中...</div>';
+    
+    try {
+        const resp = await fetch('/api/update_profile', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        if (result.update_confirmed) {
+            // 重新加载用户结果
+            loadQuickUser(userName, true);
+        } else {
+            resultDiv.innerHTML = `<div class="error-msg">❌ 更新失败</div>`;
+        }
+    } catch(e) {
+        resultDiv.innerHTML = `<div class="error-msg">❌ ${e.message}</div>`;
+    }
+}
+
+async function submitRecommend() {
+    const name = document.getElementById('name').value || '同学';
+    const school = document.getElementById('school').value || '';
+    const subjectType = document.getElementById('subjectType').value;
+    const score = parseInt(document.getElementById('score').value) || 600;
+    const majors = document.getElementById('majors').value;
+    const interests = document.getElementById('interests').value;
+    
+    if (!selectedClass) {
+        alert('雪峰人说：你不告诉我家里做什么的，我没法给你建议。请先选择家庭背景。');
+        return;
+    }
+    
+    // 进度更新
+    document.getElementById('step2').classList.add('done');
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+    
+    const resultArea = document.getElementById('resultArea');
+    resultArea.innerHTML = '<div class="loading"><div class="spinner"></div>正在生成雪峰人式方案...</div>';
+    
+    try {
+        const resp = await fetch('/api/class_recommend', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name, school, subjectType, score, majors, interests,
+                familyClass: selectedClass
+            })
+        });
+        const data = await resp.json();
+        
+        if (data.error) {
+            resultArea.innerHTML = `<div class="error-msg">❌ ${data.error}</div>`;
+            return;
+        }
+        
+        renderResult(data);
+    } catch(e) {
+        resultArea.innerHTML = `<div class="error-msg">❌ 请求失败：${e.message}</div>`;
+    }
+}
+
+function renderResult(d) {
+    let html = `
+        <div class="card-title">📋 ${d.user_name} 的方案 <span style="font-size:12px;color:#888;">家庭背景：${d.family_label}</span></div>
+        <div class="info-tag">🏫 ${d.user_school || '未填写'}</div>
+        <div class="info-tag">🎯 预估${d.estimated_score}分</div>
+        <div class="info-tag">${d.segment.level} — ${d.segment.description}</div>`;
+    
+    if (d.family_tip) {
+        html += `<div class="zxf-popup">${d.family_tip}</div>`;
+    }
+    
+    if (d.interests) {
+        html += `<div style="font-size:13px;color:#666;margin-top:8px;">🎯 ${d.interests}</div>`;
+    }
+    html += `</div>`;
+    
+    // 冲稳保
+    const cwb = d.chong_wen_bao;
+    if (cwb) {
+        html += `<div class="card"><div class="card-title">🎯 冲稳保推荐</div>`;
+        for (const [key, label] of [['chong','🚀 冲一冲'], ['wen','✅ 稳一稳'], ['bao','🛡️ 保一保']]) {
+            if (cwb[key] && cwb[key].length) {
+                html += `<div style="margin-bottom:10px;"><strong style="font-size:13px;">${label}</strong>
+                <div class="uni-grid">`;
+                for (const u of cwb[key]) {
+                    html += `<div class="uni-card">
+                        <div class="name">${u.name}</div>
+                        <div class="detail">${u.level || ''}</div>
+                        <div class="score">${u.min_score}分</div>
+                        <div class="detail">位次${u.min_rank} · 招${u.enrollment_plan}人</div>
+                    </div>`;
+                }
+                html += `</div></div>`;
+            }
+        }
+        html += `</div>`;
+    }
+    
+    // 专业推荐（含阶级标签）
+    if (d.majors && d.majors.length) {
+        html += `<div class="card"><div class="card-title">💼 专业推荐</div>`;
+        for (const m of d.majors) {
+            const emoji = m.priority.includes('🥇') ? '🥇' : m.priority.includes('🥈') ? '🥈' : '📌';
+            html += `<div class="major-item">
+                <div class="major-priority">${emoji}</div>
+                <div>
+                    <div class="major-name">${m.major}</div>
+                    <div class="major-reason">${m.reason}</div>
+                    ${m.note ? `<div class="major-reason" style="color:#92400e;">💡 ${m.note}</div>` : ''}
+                </div>
+            </div>`;
+        }
+        html += `</div>`;
+    }
+    
+    // 时间线
+    if (d.timeline) {
+        html += `<div class="card"><div class="card-title">📅 时间线</div>`;
+        for (const t of d.timeline) {
+            html += `<div class="timeline-item">
+                <div class="period">⏰ ${t.period}</div>`;
+            for (const task of t.tasks) {
+                html += `<div class="task">${task}</div>`;
+            }
+            html += `</div>`;
+        }
+        html += `</div>`;
+    }
+    
+    // 重新开始按钮
+    html += `<div class="card" style="text-align:center;">
+        <button class="btn-primary" onclick="resetAll()">🔄 重新开始（换个家庭背景试试）</button>
+    </div>`;
+    
+    document.getElementById('resultArea').innerHTML = html;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function resetAll() {
+    selectedClass = '';
+    document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('btnStep1').disabled = true;
+    document.getElementById('resultArea').innerHTML = '';
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('step1').classList.remove('done');
+    document.getElementById('step2').classList.remove('done', 'active');
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('section1').classList.add('active');
+    document.getElementById('section2').classList.remove('active');
+    document.getElementById('section3').classList.remove('active');
+}
+
+// ====== 聊天功能 ======
+let chatUser = '';
+let pollTimer = null;
+let shownAnswerIds = new Set();
+
+function openChat(userName) {
+    chatUser = userName;
+    const panel = document.getElementById('chatPanel');
+    panel.classList.add('open');
+    panel.querySelector('.title').textContent = '💬 ' + userName + '（问题记录）';
+    document.getElementById('chatMsgs').innerHTML = `
+        <div class="chat-msg bot">
+            <div class="bubble">📝 在这里提问，我会在对话里回答你。新回答会自动显示，不用刷新。</div>
+        </div>`;
+    document.getElementById('chatInput').focus();
+    shownAnswerIds = new Set();
+    loadAnswers();
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(loadAnswers, 5000);
+}
+
+function closeChat() {
+    document.getElementById('chatPanel').classList.remove('open');
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+}
+
+function addChatMsg(text, isUser) {
+    const container = document.getElementById('chatMsgs');
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+    div.innerHTML = '<div class="bubble">' + text.replace(/\n/g, '<br>') + '</div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+async function sendChat() {
+    const input = document.getElementById('chatInput');
+    const btn = document.getElementById('chatSendBtn');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    addChatMsg(msg, true);
+    input.value = '';
+    btn.disabled = true;
+    
+    try {
+        const resp = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user: chatUser, message: msg})
+        });
+        const data = await resp.json();
+        if (data.saved) {
+            addChatMsg('📝 问题已记录！我会在对话里回答你。新回答会自动显示，不用刷新。', false);
+        } else if (data.reply) {
+            addChatMsg(data.reply, false);
+        }
+    } catch(e) {
+        addChatMsg('网络出了点问题，稍后再试。', false);
+    }
+    btn.disabled = false;
+    document.getElementById('chatInput').focus();
+}
+
+async function loadAnswers() {
+    if (!chatUser) return;
+    try {
+        const resp = await fetch('/api/get_answers?user=' + encodeURIComponent(chatUser));
+        const data = await resp.json();
+        if (!data.questions) return;
+        const container = document.getElementById('chatMsgs');
+        let hasNew = false;
+        data.questions.forEach(q => {
+            if (!q.answered || !q.answer) return;
+            if (shownAnswerIds.has(q.id)) return;
+            shownAnswerIds.add(q.id);
+            hasNew = true;
+            const div1 = document.createElement('div');
+            div1.className = 'chat-msg user';
+            div1.innerHTML = '<div class="bubble">' + q.question.replace(/</g,'&lt;') + '</div>';
+            container.appendChild(div1);
+            const div2 = document.createElement('div');
+            div2.className = 'chat-msg bot';
+            div2.innerHTML = '<div class="bubble" style="background:#fef3c7;color:#92400e;">🧠 ' + q.answer.replace(/\n/g, '<br>').replace(/</g,'&lt;') + '</div>';
+            container.appendChild(div2);
+        });
+        if (hasNew) container.scrollTop = container.scrollHeight;
+    } catch(e) {}
+}
+</script>
+</body>
+</html>

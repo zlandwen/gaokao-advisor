@@ -1,0 +1,11 @@
+#!/bin/bash
+# Upload populate_data.py to Project Drive
+curl -sSL -X PUT \
+  -H "Authorization: q-ak=AKIDvAVKTUInREjRCUvVoVblWQID5Yk2PdmZDadiVpvwieLAA5UtK-MV6_FMj-ls2Cel&q-header-list=host;x-cos-acl;x-cos-storage-class&q-key-time=1783685791;1783692991&q-sign-algorithm=sha1&q-sign-time=1783685791;1783692991&q-signature=68869f0f4030f4da3cd2ff65eb7642223379a062&q-url-param-list=" \
+  -H "x-cos-acl: default" \
+  -H "x-cos-storage-class: INTELLIGENT_TIERING" \
+  -H "x-cos-security-token: UoHeIDT6k6gnOdN1UC2Gz2sNpzNeuega15234c5eaace78df7955a93141bc3a74Gw7afVBU4jeAU66rAbxHSpRq8hPdfPrDQgOHUcoAeuBbVcgAzHoEciHBC2XmrF8tTvyR0XuvrPu0B7AzkC_OBH4YSk7HJPa5n_ar5E_j29KYDRe95nt2M9VoXnOCTstOYQcPhmQu8Z2SSPngMglWEVTANz06nhIAodywpG9JJuXviRoSmp5rUnPF_tLQI1M2rqZ3p0GWyziy-81VJjuwICRK3jhHr_KkzgNf0UAfGGo8kthH3WZFsxtESaijGk88gtSFIG__w_c2XjPXAoTd7xXTVMlXIwyjbXiUTOlj5WoP_c3Ok3HkuWCvothBFConZlpJ1aRU3MUnWzd1DrXTP3E7oRdCQ-Yl2i0Ma72okX9Sv9njT4kZhqZJxAlFPrz_1sa7UEwvYk8uHDa7P057QyQEewkTU53s_gjyYgbiTeIJVV555VT7HG7XXCfNl2GlHG0cumzC3Wzg0wMxvva5EfR0coAV4rnrCmkWoQOHtB7Fjaz5EWRpVsZ1gzkMJyJ5_DO_E0Et-gaMazhafNQZlpuJFpd_VTgaQhLW5IfKarQ707dAc5xr8eYEIi_7WEwXJpNYPxW4iCEsxT8yUfbf3WbKaag1FHjNSv876b31-sPdEdhDrAjuoPKty32rMm_WiEVObi4cfq9MSs3Hy3dYjls_GhOuOZs-0zO2wLNFEiOPztPFEtxD0n572fsP8_jtPfwCwUWXyMa_4J-NDU_OeYM1JcsMnDaU7_7tQnbBrEREPXHhCoc6NuwV5B8ARC1mn23ko3p8nCphlgT4SPjNEL_5Q4B4NoN1DsjlSOZ8MyTQECgmoLJbx4Am8YFHQG9NV-z7ISIxUhLchTBbk_aWgze5CdOhzrmSLMIzO5e8aKdC6JB8v6sdUzFvSZV9vKc6R-1bP7-2JXgtHjJxT5G1ffripXrgZFXCYtkWrxoD6ISRZ5WPFP4mCgxjnyNj5R4O" \
+  -H "Content-Type: text/x-scriptphyton; charset=utf-8" \
+  -T "/workspace/SCRIPTS/populate_data.py" \
+  "https://smhwb-gz-002.data-tencentsmh.com/smh2mf8nq7i9cemv/b7894a750293763b0000000000000000376b02d749d43e3d00065640b60258b9.py"
+echo "EXIT: $?"

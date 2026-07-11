@@ -1,0 +1,103 @@
+{
+  "燃爆": {
+    "update_history": [
+      {
+        "time": "2026-07-10 21:39",
+        "changes": {
+          "estimated_score": 675
+        }
+      },
+      {
+        "time": "2026-07-11 08:18",
+        "changes": {
+          "direction": "创业/自己开公司",
+          "majors": [
+            "AI"
+          ]
+        },
+        "source": "chat"
+      },
+      {
+        "time": "2026-07-11 08:30",
+        "changes": {
+          "interests": "我想留在大湾区"
+        }
+      },
+      {
+        "time": "2026-07-11 08:32",
+        "changes": {
+          "direction": "想成为年收入超过3000万的人"
+        }
+      },
+      {
+        "time": "2026-07-11 08:34",
+        "changes": {
+          "score": 685
+        }
+      },
+      {
+        "time": "2026-07-11 08:35",
+        "changes": {
+          "score": 610
+        }
+      },
+      {
+        "time": "2026-07-11 08:36",
+        "changes": {
+          "score": 622
+        }
+      },
+      {
+        "time": "2026-07-11 08:37",
+        "changes": {
+          "interests": "对AI创业越来越感兴趣",
+          "direction": "AI创业"
+        }
+      },
+      {
+        "time": "2026-07-11 08:44",
+        "changes": {
+          "grade_rank": 5,
+          "estimated_score_from_rank": 685,
+          "province_rank": "200-500"
+        }
+      },
+      {
+        "time": "2026-07-11 11:53",
+        "changes": {
+          "majors": [
+            "计算机"
+          ]
+        },
+        "source": "chat"
+      }
+    ],
+    "estimated_score": 685,
+    "life_direction": "AI创业",
+    "target_majors_priority": [
+      "AI",
+      "计算机"
+    ],
+    "interests": "对AI创业越来越感兴趣",
+    "grade_rank_num": 5,
+    "estimated_province_rank": 350,
+    "estimated_province_rank_min": 200,
+    "estimated_province_rank_max": 500
+  },
+  "挺饱": {
+    "update_history": [
+      {
+        "time": "2026-07-11 11:54",
+        "changes": {
+          "majors": [
+            "金融"
+          ]
+        },
+        "source": "chat"
+      }
+    ],
+    "target_majors_priority": [
+      "金融"
+    ]
+  }
+}
