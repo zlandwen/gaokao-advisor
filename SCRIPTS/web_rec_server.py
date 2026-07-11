@@ -342,6 +342,17 @@ class Handler(BaseHTTPRequestHandler):
             except:
                 pass
 
+        # ====== 加载大湾区企业招聘数据 ======
+        gba_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gba_recruitment.md")
+        gba_context = ""
+        if os.path.exists(gba_path):
+            try:
+                with open(gba_path, 'r', encoding='utf-8') as f:
+                    gba_text = f.read()
+                gba_context = "\n=== 大湾区企业招聘薪资数据（用于回答就业/薪资问题）===\n" + gba_text[:3000]
+            except:
+                pass
+
         sp = f"""# 雪峰人AI v2.0 —— 升学顾问数字人
 
 ## 身份设定
@@ -382,7 +393,8 @@ class Handler(BaseHTTPRequestHandler):
 ## 当前对话用户信息
 {profile_ctx}
 {psy_context}
-{geo_context}"""
+{geo_context}
+{gba_context}"""
         # 构建 LLM 消息（支持文本+图片）
         llm_messages = [{"role":"system","content":sp}]
         user_content = []
