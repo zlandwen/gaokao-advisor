@@ -282,6 +282,17 @@ def get_university_detail(user_name, uni_name, base_dir):
         except:
             pass
 
+    # 加载就业数据
+    EMP_PATH = os.path.join(base_dir, "employment_data.json")
+    employment = None
+    if os.path.exists(EMP_PATH):
+        try:
+            with open(EMP_PATH, 'r', encoding='utf-8') as f:
+                emp_db = json.load(f)
+            employment = emp_db.get(uni_name, None)
+        except:
+            pass
+
     return {
         "university": uni_info,
         "admission_score": admission_score,
@@ -290,5 +301,6 @@ def get_university_detail(user_name, uni_name, base_dir):
         "best_path": best["type"] if best else "高考",
         "plan_data": plan_data,
         "last_activity": last_activity,
-        "alumni": alumni_list
+        "alumni": alumni_list,
+        "employment": employment
     }

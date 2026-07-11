@@ -709,6 +709,29 @@ function showUniversityDetail(name,e){
           </div>`;
         });
         html+=`<div style="font-size:10px;color:#888;margin-top:6px">💡 点击姓名查看百科</div></div>`;
+      
+      // 📊 就业数据
+      if(data.employment){
+        const e=data.employment;
+        html+=`<div style="margin-top:12px;border-top:1px solid #e2e8f0;padding-top:12px">
+          <div style="font-weight:600;font-size:13px;margin-bottom:8px">📊 就业数据（2025届本科）</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+            <div style="background:#f0f9ff;border-radius:8px;padding:10px;text-align:center">
+              <div style="color:#4a6cf7;font-size:18px;font-weight:700">${e.rate||'-'}</div>
+              <div style="color:#888;font-size:11px;margin-top:2px">毕业去向落实率</div>
+            </div>
+            <div style="background:#f0fdf4;border-radius:8px;padding:10px;text-align:center">
+              <div style="color:#16a34a;font-size:18px;font-weight:700">${e.salary||'-'}</div>
+              <div style="color:#888;font-size:11px;margin-top:2px">平均月薪(元)</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;line-height:1.6">
+            <div><strong>📍 就业城市：</strong><span style="color:#555">${e.cities||'-'}</span></div>
+            <div style="margin-top:4px"><strong>🏭 行业分布：</strong><span style="color:#555">${e.industries||'-'}</span></div>
+            <div style="margin-top:4px"><strong>🏢 主要雇主：</strong><span style="color:#555">${e.top_employers||'-'}</span></div>
+          </div>
+        </div>`;
+      }
       }
       html+='</div></div>';
       const div=document.createElement('div');div.innerHTML=html;
