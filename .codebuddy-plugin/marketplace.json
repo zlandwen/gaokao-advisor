@@ -1,0 +1,33 @@
+{
+  "name": "gaokao-advisor",
+  "owner": {
+    "name": "zlandwen",
+    "email": ""
+  },
+  "description": "🧠 雪峰人AI升学顾问 - 基于张雪峰思维体系的高考升学规划专家",
+  "version": "2.0.0",
+  "plugins": [
+    {
+      "name": "gaokao-advisor",
+      "source": {
+        "source": "github",
+        "repo": "zlandwen/gaokao-advisor"
+      },
+      "description": "🧠 雪峰人AI升学顾问\n\n基于张雪峰思维体系的AI升学规划专家。整合中国TOP100大学数据库、QS全球前200大学排名、广东省高考录取数据、未来10年行业趋势与地缘政治分析、青少年心理健康支持。\n\n## 核心能力\n- 📚 大学数据库：中国TOP100 + QS全球前200\n- 🎯 强基/综评：37所强基 + 8所广东综评策略\n- 📊 择校评估：冲稳保院校矩阵推荐\n- 🧠 心理支持：备考焦虑疏导 + 情绪管理\n- 🔭 行业前瞻：未来10年科技趋势 + 地缘分析\n- 📄 PDF报告：个性化方案输出\n- 💬 微信对接：企业微信客服模式\n\n## 使用方式\n- /gaokao 开始咨询\n- /gaokao 开始 进入问答评估\n- /gaokao 报告 查看我的报告\n\n## 安装后配置\n编辑 SCRIPTS/config.py 填入 LLM API Key 即可运行",
+      "version": "2.0.0",
+      "author": {
+        "name": "zlandwen",
+        "email": ""
+      },
+      "homepage": "https://github.com/zlandwen/gaokao-advisor",
+      "repository": "https://github.com/zlandwen/gaokao-advisor",
+      "license": "MIT",
+      "keywords": ["高考", "升学规划", "志愿填报", "强基计划", "综合评价", "AI", "education"],
+      "category": "education",
+      "skills": [
+        "./SKILL.md"
+      ],
+      "strict": false
+    }
+  ]
+}
