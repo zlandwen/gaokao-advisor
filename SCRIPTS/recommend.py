@@ -594,6 +594,7 @@ class AdmissionRecommender:
         timeline = self.generate_timeline()
         outlook = self.generate_future_outlook()
         
+        scores = self.user.get("exam_scores", {})
         weak_analysis = []
         ranks = self.user.get("exam_ranks", {})
         school_size = self.user.get("school_size", 500)
