@@ -595,6 +595,26 @@ class AdmissionRecommender:
         outlook = self.generate_future_outlook()
         
         scores = self.user.get("exam_scores", {})
+        top_unis = []
+        seen = set()
+        for level_key in ["chong","wen","bao"]:
+            for school in cwb.get(level_key, []):
+                name = school.get("name","")
+                if name and name not in seen:
+                    seen.add(name)
+                    top_unis.append({"name": name, "level": level_key, "source": "冲稳保"})
+        for m in majors:
+            if m.get("suitable"):
+                for s in m.get("schools", []):
+                    name = s if isinstance(s, str) else (s[0] if isinstance(s, tuple) else s.get("school",""))
+                    if name and name not in seen and len(top_unis) < 5:
+                        seen.add(name)
+                        top_unis.append({"name": name, "level": "wen", "source": m.get("major","")})
+        top3 = top_unis[:3]
+        for i, u in enumerate(top3):
+            u["stars"] = 3 - i
+
+        # 旧continue
         weak_analysis = []
         ranks = self.user.get("exam_ranks", {})
         school_size = self.user.get("school_size", 500)
@@ -628,7 +648,8 @@ class AdmissionRecommender:
             "zongping": zongping,
             "majors": majors,
             "timeline": timeline,
-            "future_outlook": outlook
+            "future_outlook": outlook,
+            "top3_unis": top3
         }
 
 

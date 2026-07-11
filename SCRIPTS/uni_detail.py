@@ -246,6 +246,42 @@ def get_university_detail(user_name, uni_name, base_dir):
     # 生成当前学期学习计划
     plan_data = get_current_plan(user_name, uni_name, best["type"] if best else "高考普通批", profile)
     
+    # 加载校友数据
+    ALUMNI_PATH = os.path.join(base_dir, "alumni_data.json")
+    alumni_list = []
+    if os.path.exists(ALUMNI_PATH):
+        try:
+            with open(ALUMNI_PATH, 'r', encoding='utf-8') as f:
+                alumni_db = json.load(f)
+            all_alumni = alumni_db.get(uni_name, [])
+            if all_alumni:
+                # 第1位：互联网知名度最高的（按数据中的顺序，第一个默认最知名）
+                # 其余4位：根据用户人生目标匹配
+                life_dir = profile.get("life_direction", "") or profile.get("interests", "")
+                
+                # 按目标匹配优先
+                want_wealth = any(k in life_dir for k in ["赚钱","创业","开公司","企业家","经商","金融"])
+                want_tech = any(k in life_dir for k in ["技术","编程","AI","计算机","工程师","科研"])
+                want_academic = any(k in life_dir for k in ["学术","研究","当老师","教书","读博"])
+                
+                # 排序：第1位默认最知名，其他按目标匹配
+                if all_alumni:
+                    alumni_list.append(all_alumni[0])  # 最知名的
+                    remaining = all_alumni[1:]
+                    
+                    # 按目标排序
+                    def match_score(a):
+                        s = 0
+                        if want_wealth and a.get("type") in ["财富", "创业"]: s += 10
+                        if want_tech and a.get("type") in ["技术", "创业"]: s += 10
+                        if want_academic and a.get("type") in ["学术", "科研"]: s += 10
+                        return s
+                    
+                    remaining.sort(key=lambda a: match_score(a), reverse=True)
+                    alumni_list.extend(remaining[:4])
+        except:
+            pass
+
     return {
         "university": uni_info,
         "admission_score": admission_score,
@@ -253,5 +289,6 @@ def get_university_detail(user_name, uni_name, base_dir):
         "paths": paths,
         "best_path": best["type"] if best else "高考",
         "plan_data": plan_data,
-        "last_activity": last_activity
+        "last_activity": last_activity,
+        "alumni": alumni_list
     }
