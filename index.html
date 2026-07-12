@@ -668,75 +668,40 @@ async function submitCustomForm(){
 // ═══════════════════════════════════════
 function showUniversityDetail(name,e){
   e.preventDefault();
+  var ld=window._UNI_DETAILS&&window._UNI_DETAILS[name]; if(ld){renderUniDetail(name,ld);return;}
   const user=currentUser||'custom';
   fetch('/api/university_detail?user='+encodeURIComponent(user)+'&name='+encodeURIComponent(name))
     .then(r=>r.json())
-    .then(data=>{
+    .then(data=>{ renderUniDetail(name, data); }).catch(()=>{alert('加载失败');});
+
+function renderUniDetail(name, data){
       const u=data.university||{};
       let html='<div onclick="if(event.target===this)this.remove()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px">'+
         '<div style="background:white;border-radius:16px;max-width:480px;width:100%;max-height:80vh;overflow-y:auto;padding:24px">';
-      html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <span style="font-size:18px;font-weight:600">${name}</span>
-        <span onclick="this.closest(\'div[style]\').remove()" style="cursor:pointer;font-size:20px;color:#888">✕</span>
-      </div>`;
-      if(u.level) html+=`<span class="info-tag">${u.level}</span>`;
-      if(u.city) html+=`<span class="info-tag">📍 ${u.province||''} ${u.city}</span>`;
-      if(data.admission_score) html+=`<span class="info-tag">🎯 2025广东: ${data.admission_score}分(位次${data.admission_rank})</span>`;
+      html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-size:18px;font-weight:600">'+name+'</span><span onclick="this.parentElement.parentElement.parentElement.remove()" style="cursor:pointer;font-size:20px;color:#888">✕</span></div>';
+      if(u.level) html+='<span class="info-tag">'+u.level+'</span>';
+      if(u.city) html+='<span class="info-tag">📍 '+(u.province||'')+' '+u.city+'</span>';
+      if(data.admission_score) html+='<span class="info-tag">🎯 2025广东: '+data.admission_score+'分(位次'+data.admission_rank+')</span>';
       html+='<div style="margin:12px 0"></div>';
-      if(data.paths) data.paths.forEach(p=>{
-        const c=p.match==='冲刺'?'#fef2f2,#991b1b':p.match==='稳妥'?'#f0fdf4,#166534':'#f8f9fc,#555';
-        html+=`<div style="background:${c.split(',')[0]};border-radius:8px;padding:10px;margin:6px 0;font-size:12px;line-height:1.5">
-          <strong>${p.type}</strong> <span style="color:${c.split(',')[1]}">[${p.match}]</span>
-          <div style="color:#666">${p.detail||''}</div>
-          <div style="color:#888;font-size:11px;margin-top:4px">${p.prep||''}</div>
-        </div>`;
+      if(data.paths) data.paths.forEach(function(p){
+        var c=p.match==='冲刺'?'#fef2f2,#991b1b':p.match==='稳妥'?'#f0fdf4,#166534':'#f8f9fc,#555';
+        html+='<div style="background:'+c.split(',')[0]+';border-radius:8px;padding:10px;margin:6px 0;font-size:12px;line-height:1.5"><strong>'+p.type+'</strong> <span style="color:'+c.split(',')[1]+'">['+p.match+']</span><div style="color:#666">'+(p.detail||'')+'</div><div style="color:#888;font-size:11px;margin-top:4px">'+(p.prep||'')+'</div></div>';
       });
       if(data.plan_data&&data.plan_data.current_tasks){
-        html+=`<div style="font-size:12px;font-weight:600;margin:8px 0 4px">📅 ${data.plan_data.current_semester||''} 任务：</div>`;
-        data.plan_data.current_tasks.filter(t=>t).forEach(t=>html+=`<div style="font-size:11px;padding:2px 0;color:#555">• ${t}</div>`);
+        html+='<div style="font-size:12px;font-weight:600;margin:8px 0 4px">📅 '+(data.plan_data.current_semester||'')+' 任务：</div>';
+        data.plan_data.current_tasks.filter(function(t){return t;}).forEach(function(t){html+='<div style="font-size:11px;padding:2px 0;color:#555">• '+t+'</div>';});
       }
       if(data.alumni&&data.alumni.length){
-        html+=`<div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px">
-          <div style="font-weight:600;font-size:13px;margin-bottom:8px">🎓 知名校友（本科）</div>`;
-        data.alumni.forEach((a,i)=>{
-          html+=`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f1f5f9">
-            <div style="width:24px;height:24px;border-radius:50%;background:#4a6cf7;color:white;display:flex;align-items:center;justify-content:center;font-size:12px">${i+1}</div>
-            <div style="flex:1">
-              <a href="${a.url}" target="_blank" style="font-weight:600;font-size:13px;color:#4a6cf7;text-decoration:none">${a.name}</a>
-              <div style="font-size:11px;color:#666">${a.desc||''}</div>
-            </div>
-            <span style="font-size:10px;background:#eef2ff;color:#4a6cf7;padding:2px 6px;border-radius:6px">${a.type||''}</span>
-          </div>`;
+        html+='<div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px"><div style="font-weight:600;font-size:13px;margin-bottom:8px">🎓 知名校友（本科）</div>';
+        data.alumni.forEach(function(a,i){
+          html+='<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f1f5f9"><div style="width:24px;height:24px;border-radius:50%;background:#4a6cf7;color:white;display:flex;align-items:center;justify-content:center;font-size:12px">'+(i+1)+'</div><div style="flex:1"><a href="'+a.url+'" target="_blank" style="font-weight:600;font-size:13px;color:#4a6cf7;text-decoration:none">'+a.name+'</a><div style="font-size:11px;color:#666">'+(a.desc||'')+'</div></div><span style="font-size:10px;background:#eef2ff;color:#4a6cf7;padding:2px 6px;border-radius:6px">'+a.type+'</span></div>';
         });
-        html+=`<div style="font-size:10px;color:#888;margin-top:6px">💡 点击姓名查看百科</div></div>`;
-      
-      // 📊 就业数据
-      if(data.employment){
-        const e=data.employment;
-        html+=`<div style="margin-top:12px;border-top:1px solid #e2e8f0;padding-top:12px">
-          <div style="font-weight:600;font-size:13px;margin-bottom:8px">📊 就业数据（2025届本科）</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
-            <div style="background:#f0f9ff;border-radius:8px;padding:10px;text-align:center">
-              <div style="color:#4a6cf7;font-size:18px;font-weight:700">${e.rate||'-'}</div>
-              <div style="color:#888;font-size:11px;margin-top:2px">毕业去向落实率</div>
-            </div>
-            <div style="background:#f0fdf4;border-radius:8px;padding:10px;text-align:center">
-              <div style="color:#16a34a;font-size:18px;font-weight:700">${e.salary||'-'}</div>
-              <div style="color:#888;font-size:11px;margin-top:2px">平均月薪(元)</div>
-            </div>
-          </div>
-          <div style="margin-top:8px;font-size:12px;line-height:1.6">
-            <div><strong>📍 就业城市：</strong><span style="color:#555">${e.cities||'-'}</span></div>
-            <div style="margin-top:4px"><strong>🏭 行业分布：</strong><span style="color:#555">${e.industries||'-'}</span></div>
-            <div style="margin-top:4px"><strong>🏢 主要雇主：</strong><span style="color:#555">${e.top_employers||'-'}</span></div>
-          </div>
-        </div>`;
-      }
+        html+='<div style="font-size:10px;color:#888;margin-top:6px">💡 点击姓名查看百科</div></div>';
       }
       html+='</div></div>';
-      const div=document.createElement('div');div.innerHTML=html;
+      var div=document.createElement('div');div.innerHTML=html;
       document.body.appendChild(div);
-    }).catch(()=>{alert('加载失败');});
+    });
 }
 
 // ═══════════════════════════════════════
