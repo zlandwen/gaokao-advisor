@@ -211,36 +211,43 @@ body{
 <!-- Header -->
 <div class="header">
   <h1>🧠 <span>雪峰人AI</span></h1>
-  <p>高考升学规划 · 基于张雪峰思维体系</p>
+  <p>高考升学规划 · 先谋生再谋爱</p>
   <span class="tag">📊 数据驱动 · 💼 就业优先 · 🎯 精准推荐</span>
 </div>
 
-<!-- Home: User Selection -->
+<!-- ====== 首页：直接进入评估 ====== -->
 <div id="pageHome">
+  <!-- 第一步：选择评估方式 -->
   <div class="card">
-    <div class="card-title">👤 选择学生</div>
-    <p style="font-size:12px;color:#888;margin-bottom:12px">点击学生卡片查看个性化升学方案，或选择「自己来」开始评估</p>
-    <div class="user-grid">
-      <div class="user-card ranbao" onclick="checkPassword('燃爆')">
-        <div class="avatar">🔥</div>
-        <div class="name">燃爆</div>
-        <div class="school">深圳科学高中</div>
-        <div class="hint">C9冲顶 · 强基路线</div>
-      </div>
-      <div class="user-card tingbao" onclick="checkPassword('挺饱')">
-        <div class="avatar">🍜</div>
-        <div class="name">挺饱</div>
-        <div class="school">深北莫附中</div>
-        <div class="hint">综评冲985 · 稳211</div>
-      </div>
-    </div>
-    <button class="btn btn-outline btn-block" onclick="showCustomForm()">✏️ 自己来 · 开始评估</button>
+    <div class="card-title">📋 开始你的升学评估</div>
+    <p style="font-size:12px;color:#666;margin-bottom:14px;line-height:1.6">
+      雪峰人式评估——先看家庭背景再谈专业选择。<br>
+      普通家庭给保守方案，富裕家庭给多元路径。<br>
+      <strong>不画饼，只看数据。</strong>
+    </p>
+    <button class="btn btn-primary btn-block" style="padding:16px;font-size:16px" onclick="showCustomForm()">
+      🚀 开始评估
+    </button>
+    <p style="font-size:11px;color:#aaa;text-align:center;margin-top:10px">3步填写，3分钟出方案</p>
   </div>
 
-  <div class="card" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);text-align:center;padding:24px">
-    <div style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.7">
-      已收录 <strong style="color:#fbbf24">100</strong> 所中国大学 · <strong style="color:#fbbf24">198</strong> 所QS全球大学<br>
-      <strong style="color:#fbbf24">8</strong> 大行业趋势 · <strong style="color:#fbbf24">20</strong> 家大湾区企业薪资数据
+  <!-- 数据背书 -->
+  <div class="card" style="background:#f8f9fc;text-align:center;padding:16px">
+    <div style="font-size:12px;color:#666;line-height:1.7">
+      已收录 <strong>100</strong> 所中国大学 · <strong>198</strong> 所QS全球大学<br>
+      <strong>8</strong> 大行业趋势 · <strong>30</strong> 所高校就业数据 · <strong>20</strong> 家大湾区企业薪资
+    </div>
+  </div>
+
+  <!-- 燃爆和挺饱 → 小卡片在底部 -->
+  <div style="display:flex;gap:10px;margin-bottom:10px">
+    <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="checkPassword('燃爆')">
+      <div style="font-size:24px">🔥</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px">燃爆 · C9冲顶</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="checkPassword('挺饱')">
+      <div style="font-size:24px">🍜</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px">挺饱 · 综评冲985</div>
     </div>
   </div>
 
@@ -642,13 +649,28 @@ async function submitCustomForm(){
     target:document.getElementById('fTarget').value,
   };
   
+  // 先试本地API，再试隧道
+  var apiBase = '';
+  async function tryFetch(url) {
+    var r = await fetch(url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(profile)});
+    return r.json();
+  }
+  
   try{
-    const resp=await fetch('/api/class_recommend',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(profile)
-    });
-    const data=await resp.json();
+    var data;
+    try {
+      data = await tryFetch('/api/class_recommend');
+    } catch(e1) {
+      // 本地API不可用，尝试隧道
+      try {
+        var baseUrl = 'https://calculation-librarian-them-invest.trycloudflare.com';
+        data = await tryFetch(baseUrl + '/api/class_recommend');
+      } catch(e2) {
+        alert('当前为离线版，完整评估需要部署后端服务。\n请先查看燃爆/挺饱的示例方案。');
+        btn.disabled=false;btn.textContent='🚀 生成我的升学方案';
+        return;
+      }
+    }
     if(data.error){
       alert('❌ '+data.error);
       btn.disabled=false;btn.textContent='🚀 生成我的升学方案';
@@ -661,7 +683,7 @@ async function submitCustomForm(){
     renderQuickResult(data,data.user_name);
     document.getElementById('chatFab').style.display='flex';
   }catch(e){
-    alert('网络错误，请稍后重试');
+    alert('生成方案时出错。隧道版仅支持燃爆/挺饱查看示例方案。');
     btn.disabled=false;btn.textContent='🚀 生成我的升学方案';
   }
 }
