@@ -1,126 +1,94 @@
 {
   "清华大学": [
-    {"name": "张朝阳", "url": "https://baike.baidu.com/item/%E5%BC%A0%E6%9C%9D%E9%98%B3", "type": "财富", "desc": "搜狐创始人，中国互联网先驱，身价超50亿"},
+    {"name": "张朝阳", "url": "https://baike.baidu.com/item/%E5%BC%A0%E6%9C%9D%E9%98%B3", "type": "财富", "desc": "搜狐创始人，中国互联网先驱"},
     {"name": "王兴", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%85%B4", "type": "财富", "desc": "美团创始人兼CEO，身价超千亿"},
-    {"name": "王小川", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%B0%8F%E5%B7%9D", "type": "技术", "desc": "搜狗创始人，百川智能CEO，AI领域领军人物"},
-    {"name": "邓稼先", "url": "https://baike.baidu.com/item/%E9%82%93%E7%A8%BC%E5%85%88", "type": "学术", "desc": "两弹元勋，中国科学院院士，中国核武器奠基人"},
-    {"name": "杨振宁", "url": "https://baike.baidu.com/item/%E6%9D%A8%E6%8C%AF%E5%AE%81", "type": "学术", "desc": "诺贝尔物理学奖得主，物理学家"},
-    {"name": "施一公", "url": "https://baike.baidu.com/item/%E6%96%BD%E4%B8%80%E5%85%AC", "type": "学术", "desc": "结构生物学家，西湖大学校长，中国科学院院士"},
-    {"name": "侯德榜", "url": "https://baike.baidu.com/item/%E4%BE%AF%E5%BE%B7%E6%A6%9C", "type": "技术", "desc": "中国化工奠基人，侯氏制碱法发明者"},
-    {"name": "孙宏斌", "url": "https://baike.baidu.com/item/%E5%AD%99%E5%AE%8F%E6%96%8C", "type": "财富", "desc": "融创中国创始人，房地产大佬，身价百亿"},
-    {"name": "梁思成", "url": "https://baike.baidu.com/item/%E6%A2%81%E6%80%9D%E6%88%90", "type": "学术", "desc": "建筑学家，中国建筑史奠基人"},
-    {"name": "赵伟国", "url": "https://baike.baidu.com/item/%E8%B5%B5%E4%BC%9F%E5%9B%BD", "type": "财富", "desc": "紫光集团董事长，芯片产业投资大佬"}
+    {"name": "王小川", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%B0%8F%E5%B7%9D", "type": "技术", "desc": "搜狗创始人，百川智能CEO"},
+    {"name": "邓稼先", "url": "https://baike.baidu.com/item/%E9%82%93%E7%A8%BC%E5%85%88", "type": "学术", "desc": "两弹元勋，中国科学院院士"},
+    {"name": "杨振宁", "url": "https://baike.baidu.com/item/%E6%9D%A8%E6%8C%AF%E5%AE%81", "type": "学术", "desc": "诺贝尔物理学奖得主"}
   ],
   "北京大学": [
     {"name": "李彦宏", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%BD%A6%E5%AE%8F", "type": "财富", "desc": "百度创始人兼CEO，身价超千亿"},
-    {"name": "俞敏洪", "url": "https://baike.baidu.com/item/%E4%BF%9E%E6%95%8F%E6%B4%AA", "type": "财富", "desc": "新东方创始人，教育界企业家，身价百亿"},
-    {"name": "李书福", "url": "https://baike.baidu.com/item/%E6%9D%8E%E4%B9%A6%E7%A6%8F", "type": "财富", "desc": "吉利集团创始人，汽车大王，身价千亿"},
-    {"name": "钟南山", "url": "https://baike.baidu.com/item/%E9%92%9F%E5%8D%97%E5%B1%B1", "type": "学术", "desc": "中国工程院院士，呼吸病学专家，抗疫英雄"},
-    {"name": "屠呦呦", "url": "https://baike.baidu.com/item/%E5%B1%A0%E5%91%A6%E5%91%A6", "type": "学术", "desc": "诺贝尔生理学或医学奖得主，青蒿素发现者"},
-    {"name": "雷军", "url": "https://baike.baidu.com/item/%E9%9B%B7%E5%86%9B", "type": "财富", "desc": "小米创始人兼CEO，身价千亿，知名投资人"},
-    {"name": "朱光潜", "url": "https://baike.baidu.com/item/%E6%9C%B1%E5%85%89%E6%BD%9C", "type": "学术", "desc": "美学家、文艺理论家，北大教授"},
-    {"name": "徐小平", "url": "https://baike.baidu.com/item/%E5%BE%90%E5%B0%8F%E5%B9%B3", "type": "财富", "desc": "真格基金创始人，新东方联合创始人，知名天使投资人"},
-    {"name": "张泉灵", "url": "https://baike.baidu.com/item/%E5%BC%A0%E6%B3%89%E7%81%B5", "type": "创业", "desc": "前央视主持人，投资人，少年得到董事长"},
-    {"name": "王志东", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%BF%97%E4%B8%9C", "type": "技术", "desc": "新浪网创始人，中文互联网先驱"}
+    {"name": "俞敏洪", "url": "https://baike.baidu.com/item/%E4%BF%9E%E6%95%8F%E6%B4%AA", "type": "财富", "desc": "新东方创始人，教育界企业家"},
+    {"name": "王选", "url": "https://baike.baidu.com/item/%E7%8E%8B%E9%80%89", "type": "学术", "desc": "汉字激光照排之父，国家最高科技奖得主"},
+    {"name": "屠呦呦", "url": "https://baike.baidu.com/item/%E5%B1%A0%E5%91%A6%E5%91%A6", "type": "学术", "desc": "诺贝尔生理学或医学奖得主"},
+    {"name": "徐小平", "url": "https://baike.baidu.com/item/%E5%BE%90%E5%B0%8F%E5%B9%B3", "type": "财富", "desc": "真格基金创始人，著名天使投资人"}
   ],
   "浙江大学": [
-    {"name": "马云", "url": "https://baike.baidu.com/item/%E9%A9%AC%E4%BA%91", "type": "财富", "desc": "阿里巴巴创始人，身价超3000亿，中国首富"},
-    {"name": "史玉柱", "url": "https://baike.baidu.com/item/%E5%8F%B2%E7%8E%89%E6%9F%B1", "type": "财富", "desc": "巨人网络创始人，身价百亿，商业传奇"},
-    {"name": "段永平", "url": "https://baike.baidu.com/item/%E6%AE%B5%E6%B0%B8%E5%B9%B3", "type": "财富", "desc": "步步高/OPPO/vivo创始人，知名投资人，身价百亿"},
-    {"name": "陈薇", "url": "https://baike.baidu.com/item/%E9%99%88%E8%96%87", "type": "学术", "desc": "中国工程院院士，军事医学研究院研究员，新冠疫苗研发"},
-    {"name": "路甬祥", "url": "https://baike.baidu.com/item/%E8%B7%AF%E7%94%AC%E7%A5%A5", "type": "学术", "desc": "中国科学院原院长，工程热物理学家"},
-    {"name": "黄峥", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%B3%A5", "type": "财富", "desc": "拼多多创始人，身价超2000亿，80后首富"},
+    {"name": "黄峥", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%B3%A5", "type": "财富", "desc": "拼多多创始人，身价超2000亿"},
+    {"name": "史玉柱", "url": "https://baike.baidu.com/item/%E5%8F%B2%E7%8E%89%E6%9F%B1", "type": "财富", "desc": "巨人网络创始人，商业传奇人物"},
+    {"name": "段永平", "url": "https://baike.baidu.com/item/%E6%AE%B5%E6%B0%B8%E5%B9%B3", "type": "财富", "desc": "步步高/OPPO/vivo创始人，知名投资人"},
     {"name": "丁磊", "url": "https://baike.baidu.com/item/%E4%B8%81%E7%A3%8A", "type": "财富", "desc": "网易创始人兼CEO，身价千亿"},
-    {"name": "李叔同", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%8F%94%E5%90%8C", "type": "学术", "desc": "弘一法师，艺术家、音乐家、教育家"},
-    {"name": "竺可桢", "url": "https://baike.baidu.com/item/%E7%AB%BA%E5%8F%AF%E6%A1%A2", "type": "学术", "desc": "气象学家、教育家，浙江大学原校长"},
-    {"name": "陈从周", "url": "https://baike.baidu.com/item/%E9%99%88%E4%BB%8E%E5%91%A8", "type": "学术", "desc": "古建筑学家、园林艺术家"}
+    {"name": "路甬祥", "url": "https://baike.baidu.com/item/%E8%B7%AF%E7%94%AC%E7%A5%A5", "type": "学术", "desc": "中国科学院原院长，工程热物理学家"}
   ],
   "上海交通大学": [
     {"name": "钱学森", "url": "https://baike.baidu.com/item/%E9%92%B1%E5%AD%A6%E6%A3%AE", "type": "学术", "desc": "中国航天之父，两弹一星元勋"},
-    {"name": "江泽民", "url": "https://baike.baidu.com/item/%E6%B1%9F%E6%B3%BD%E6%B0%91", "type": "政界", "desc": "中国前国家主席"},
-    {"name": "张旭豪", "url": "https://baike.baidu.com/item/%E5%BC%A0%E6%97%AD%E8%B1%AA", "type": "财富", "desc": "饿了么创始人，身价百亿"},
-    {"name": "黄旭华", "url": "https://baike.baidu.com/item/%E9%BB%84%E6%97%AD%E5%8D%8E", "type": "学术", "desc": "中国核潜艇之父，共和国勋章获得者"},
-    {"name": "茅以升", "url": "https://baike.baidu.com/item/%E8%8C%85%E4%BB%A5%E5%8D%87", "type": "学术", "desc": "桥梁专家，钱塘江大桥设计者"},
-    {"name": "沈南鹏", "url": "https://baike.baidu.com/item/%E6%B2%88%E5%8D%97%E9%B9%8F", "type": "财富", "desc": "红杉资本全球执行合伙人，身价百亿"},
-    {"name": "曾毓群", "url": "https://baike.baidu.com/item/%E6%9B%BE%E6%AF%93%E7%BE%A4", "type": "财富", "desc": "宁德时代创始人，身价超2000亿"},
-    {"name": "李宏", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%AE%8F%E6%96%87", "type": "财富", "desc": "分众传媒创始人，身价百亿"}
+    {"name": "姚明", "url": "https://baike.baidu.com/item/%E5%A7%9A%E6%98%8E", "type": "体育", "desc": "中国篮协主席，前NBA球星"},
+    {"name": "沈南鹏", "url": "https://baike.baidu.com/item/%E6%B2%88%E5%8D%97%E9%B9%8F", "type": "财富", "desc": "红杉资本全球执行合伙人"},
+    {"name": "张旭豪", "url": "https://baike.baidu.com/item/%E5%BC%A0%E6%97%AD%E8%B1%AA", "type": "财富", "desc": "饿了么创始人"},
+    {"name": "茅以升", "url": "https://baike.baidu.com/item/%E8%8C%85%E4%BB%A5%E5%8D%87", "type": "学术", "desc": "桥梁专家，钱塘江大桥设计者"}
   ],
   "复旦大学": [
-    {"name": "陈天桥", "url": "https://baike.baidu.com/item/%E9%99%88%E5%A4%A9%E6%A1%A5", "type": "财富", "desc": "盛大网络创始人，身价百亿，中国游戏之父"},
-    {"name": "郭广昌", "url": "https://baike.baidu.com/item/%E9%83%AD%E5%B9%BF%E6%98%8C", "type": "财富", "desc": "复星集团创始人，身价超500亿，投资大亨"},
-    {"name": "李开复", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%BC%80%E5%A4%8D", "type": "技术", "desc": "创新工场创始人，前谷歌/微软高管，AI专家"},
+    {"name": "陈天桥", "url": "https://baike.baidu.com/item/%E9%99%88%E5%A4%A9%E6%A1%A5", "type": "财富", "desc": "盛大网络创始人"},
+    {"name": "郭广昌", "url": "https://baike.baidu.com/item/%E9%83%AD%E5%B9%BF%E6%98%8C", "type": "财富", "desc": "复星集团创始人，身价超500亿"},
     {"name": "苏步青", "url": "https://baike.baidu.com/item/%E8%8B%8F%E6%AD%A5%E9%9D%92", "type": "学术", "desc": "数学家，中国微分几何学派创始人"},
     {"name": "杨玉良", "url": "https://baike.baidu.com/item/%E6%9D%A8%E7%8E%89%E8%89%AF", "type": "学术", "desc": "复旦大学原校长，高分子科学家"},
-    {"name": "李国强", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%9B%BD%E5%BC%BA", "type": "学术", "desc": "经济学家，复旦经济学院教授"}
-  ],
-  "中国科学技术大学": [
-    {"name": "张亚勤", "url": "https://baike.baidu.com/item/%E5%BC%A0%E4%BA%9A%E5%8B%A4", "type": "技术", "desc": "百度前总裁，中国工程院院士，AI专家"},
-    {"name": "潘建伟", "url": "https://baike.baidu.com/item/%E6%BD%98%E5%BB%BA%E4%BC%9F", "type": "学术", "desc": "量子通信之父，中国科学技术大学常务副校长"},
-    {"name": "庄小威", "url": "https://baike.baidu.com/item/%E5%BA%84%E5%B0%8F%E5%A8%81", "type": "学术", "desc": "哈佛大学终身教授，美国国家科学院院士"},
-    {"name": "邓中翰", "url": "https://baike.baidu.com/item/%E9%82%93%E4%B8%AD%E7%BF%B0", "type": "技术", "desc": "中星微创始人，中国芯之父"},
-    {"name": "刘若鹏", "url": "https://baike.baidu.com/item/%E5%88%98%E8%8B%A5%E9%B9%8F", "type": "技术", "desc": "光启技术创始人，超材料专家"},
-    {"name": "陈小平", "url": "https://baike.baidu.com/item/%E9%99%88%E5%B0%8F%E5%B9%B3", "type": "技术", "desc": "云从科技创始人，AI四小龙之一"}
+    {"name": "张安", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%AE%89", "type": "财富", "desc": "复星集团联合创始人"}
   ],
   "南京大学": [
-    {"name": "刘强东", "url": "https://baike.baidu.com/item/%E5%88%98%E5%BC%BA%E4%B8%9C", "type": "财富", "desc": "京东创始人，身价千亿"},
     {"name": "杨洁篪", "url": "https://baike.baidu.com/item/%E6%9D%A8%E6%B4%81%E7%AF%AA", "type": "政界", "desc": "中国前外交部长，资深外交家"},
     {"name": "吴健雄", "url": "https://baike.baidu.com/item/%E5%90%B4%E5%81%A5%E9%9B%84", "type": "学术", "desc": "核物理学家，东方居里夫人"},
-    {"name": "沙祖康", "url": "https://baike.baidu.com/item/%E6%B2%99%E7%A5%96%E5%BA%B7", "type": "政界", "desc": "联合国前副秘书长，著名外交官"},
-    {"name": "王贻芳", "url": "https://baike.baidu.com/item/%E7%8E%8B%E8%B4%BB%E8%8A%B3", "type": "学术", "desc": "中科院院士，高能物理学家，江门中微子实验负责人"},
+    {"name": "沙祖康", "url": "https://baike.baidu.com/item/%E6%B2%99%E7%A5%96%E5%BA%B7", "type": "政界", "desc": "联合国前副秘书长"},
+    {"name": "王贻芳", "url": "https://baike.baidu.com/item/%E7%8E%8B%E8%B4%BB%E8%8A%B3", "type": "学术", "desc": "中科院院士，高能物理学家"},
     {"name": "周其凤", "url": "https://baike.baidu.com/item/%E5%91%A8%E5%85%B6%E5%87%A4", "type": "学术", "desc": "北京大学原校长，高分子化学家"}
   ],
+  "中国科学技术大学": [
+    {"name": "张亚勤", "url": "https://baike.baidu.com/item/%E5%BC%A0%E4%BA%9A%E5%8B%A4", "type": "技术", "desc": "百度前总裁，中国工程院院士"},
+    {"name": "潘建伟", "url": "https://baike.baidu.com/item/%E6%BD%98%E5%BB%BA%E4%BC%9F", "type": "学术", "desc": "量子科学实验卫星首席科学家"},
+    {"name": "邓中翰", "url": "https://baike.baidu.com/item/%E9%82%93%E4%B8%AD%E7%BF%B0", "type": "技术", "desc": "中星微创始人，中国芯之父"},
+    {"name": "庄小威", "url": "https://baike.baidu.com/item/%E5%BA%84%E5%B0%8F%E5%A8%81", "type": "学术", "desc": "哈佛大学终身教授，美国国家科学院院士"},
+    {"name": "刘若鹏", "url": "https://baike.baidu.com/item/%E5%88%98%E8%8B%A5%E9%B9%8F", "type": "技术", "desc": "光启技术创始人"}
+  ],
   "武汉大学": [
-    {"name": "雷军", "url": "https://baike.baidu.com/item/%E9%9B%B7%E5%86%9B", "type": "财富", "desc": "小米创始人兼CEO，身价千亿（注：武大本科）"},
-    {"name": "张小龙", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%B0%8F%E9%BE%99", "type": "技术", "desc": "微信创始人，腾讯高级副总裁，中国产品经理第一人"},
-    {"name": "陈东升", "url": "https://baike.baidu.com/item/%E9%99%88%E4%B8%9C%E5%8D%87", "type": "财富", "desc": "泰康保险创始人，嘉德拍卖创始人，身价百亿"},
-    {"name": "孙宏斌", "url": "https://baike.baidu.com/item/%E5%AD%99%E5%AE%8F%E6%96%8C", "type": "财富", "desc": "融创中国创始人，身价百亿"},
-    {"name": "王小川", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%B0%8F%E5%B7%9D", "type": "技术", "desc": "搜狗创始人，百川智能CEO"},
+    {"name": "雷军", "url": "https://baike.baidu.com/item/%E9%9B%B7%E5%86%9B", "type": "财富", "desc": "小米创始人兼CEO，身价千亿"},
+    {"name": "孙宏斌", "url": "https://baike.baidu.com/item/%E5%AD%99%E5%AE%8F%E6%96%8C", "type": "财富", "desc": "融创中国创始人"},
+    {"name": "陈东升", "url": "https://baike.baidu.com/item/%E9%99%88%E4%B8%9C%E5%8D%87", "type": "财富", "desc": "泰康保险创始人，嘉德拍卖创始人"},
     {"name": "易中天", "url": "https://baike.baidu.com/item/%E6%98%93%E4%B8%AD%E5%A4%A9", "type": "学术", "desc": "学者，作家，百家讲坛主讲人"},
     {"name": "方方", "url": "https://baike.baidu.com/item/%E6%96%B9%E6%96%B9", "type": "学术", "desc": "作家，湖北省作家协会原主席"}
   ],
   "华中科技大学": [
-    {"name": "孟晚舟", "url": "https://baike.baidu.com/item/%E5%AD%9F%E6%99%9A%E8%88%9F", "type": "财富", "desc": "华为副董事长/CFO"},
     {"name": "张小龙", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%B0%8F%E9%BE%99", "type": "技术", "desc": "微信创始人，腾讯高级副总裁"},
+    {"name": "孟晚舟", "url": "https://baike.baidu.com/item/%E5%AD%9F%E6%99%9A%E8%88%9F", "type": "财富", "desc": "华为副董事长/CFO"},
     {"name": "李培根", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%9F%B9%E6%A0%B9", "type": "学术", "desc": "中国工程院院士，华中科大原校长"},
     {"name": "周济", "url": "https://baike.baidu.com/item/%E5%91%A8%E6%B5%8E", "type": "学术", "desc": "中国工程院院士，前教育部长"},
     {"name": "汪潮涌", "url": "https://baike.baidu.com/item/%E6%B1%AA%E6%BD%AE%E6%B6%8C", "type": "财富", "desc": "信中利资本创始人，知名投资人"}
   ],
-  "西安交通大学": [
-    {"name": "刘国梁", "url": "https://baike.baidu.com/item/%E5%88%98%E5%9B%BD%E6%A2%81", "type": "体育", "desc": "中国乒乓球队原总教练，世界冠军"},
-    {"name": "刘建航", "url": "https://baike.baidu.com/item/%E5%88%98%E5%BB%BA%E8%88%AA", "type": "技术", "desc": "隧道与地下工程专家，中国工程院院士"},
-    {"name": "姚熹", "url": "https://baike.baidu.com/item/%E5%A7%9A%E7%86%89", "type": "学术", "desc": "电子材料专家，中国科学院院士"},
-    {"name": "王树国", "url": "https://baike.baidu.com/item/%E7%8E%8B%E6%A0%91%E5%9B%BD", "type": "学术", "desc": "西安交大原校长，福耀科技大学校长"},
-    {"name": "郑南宁", "url": "https://baike.baidu.com/item/%E9%83%91%E5%8D%97%E5%AE%81", "type": "学术", "desc": "中国工程院院士，人工智能专家"}
-  ],
-  "哈尔滨工业大学": [
-    {"name": "马兴瑞", "url": "https://baike.baidu.com/item/%E9%A9%AC%E5%85%B4%E7%91%9E", "type": "政界", "desc": "广东省省长，中国航天专家"},
-    {"name": "李长春", "url": "https://baike.baidu.com/item/%E6%9D%8E%E9%95%BF%E6%98%A5", "type": "政界", "desc": "中国前政治局常委"},
-    {"name": "孙家栋", "url": "https://baike.baidu.com/item/%E5%AD%99%E5%AE%B6%E6%A0%8B", "type": "学术", "desc": "航天专家，两弹一星元勋，绕月探测工程总师"},
-    {"name": "栾恩杰", "url": "https://baike.baidu.com/item/%E6%A0%BE%E6%81%A9%E6%9D%B0", "type": "学术", "desc": "中国工程院院士，航天专家"},
-    {"name": "戚发轫", "url": "https://baike.baidu.com/item/%E6%88%9A%E5%8F%91%E8%BD%AB", "type": "学术", "desc": "神舟飞船首任总设计师"}
-  ],
-  "中山大学": [
-    {"name": "黄光裕", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%85%89%E8%A3%95", "type": "财富", "desc": "国美电器创始人，身价百亿"},
-    {"name": "陈建斌", "url": "https://baike.baidu.com/item/%E9%99%88%E5%BB%BA%E6%96%8C", "type": "艺术", "desc": "演员，导演，话剧艺术家"},
-    {"name": "钟南山", "url": "https://baike.baidu.com/item/%E9%92%9F%E5%8D%97%E5%B1%B1", "type": "学术", "desc": "中国工程院院士，呼吸病学专家"},
-    {"name": "陈寅恪", "url": "https://baike.baidu.com/item/%E9%99%88%E5%AF%85%E6%81%AA", "type": "学术", "desc": "历史学家、古典文学研究家"},
-    {"name": "鲁迅", "url": "https://baike.baidu.com/item/%E9%B2%81%E8%BF%85", "type": "学术", "desc": "文学家、思想家，中国现代文学奠基人"},
-    {"name": "梁伯强", "url": "https://baike.baidu.com/item/%E6%A2%81%E4%BC%AF%E5%BC%BA", "type": "学术", "desc": "病理学家，中国科学院院士"}
-  ],
   "华南理工大学": [
     {"name": "张志东", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%BF%97%E4%B8%9C", "type": "财富", "desc": "腾讯联合创始人，身价千亿"},
-    {"name": "李东生", "url": "https://baike.baidu.com/item/%E6%9D%8E%E4%B8%9C%E7%94%9F", "type": "财富", "desc": "TCL创始人兼董事长，身价百亿"},
-    {"name": "何小鹏", "url": "https://baike.baidu.com/item/%E4%BD%95%E5%B0%8F%E9%B9%8F", "type": "财富", "desc": "小鹏汽车创始人，UC浏览器创始人，身价百亿"},
-    {"name": "黄宏生", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%AE%8F%E7%94%9F", "type": "财富", "desc": "创维集团创始人，身价百亿"},
-    {"name": "杨国强", "url": "https://baike.baidu.com/item/%E6%9D%A8%E5%9B%BD%E5%BC%BA", "type": "财富", "desc": "碧桂园创始人，身价千亿"},
-    {"name": "罗秋平", "url": "https://baike.baidu.com/item/%E7%BD%97%E7%A7%8B%E5%B9%B3", "type": "财富", "desc": "蓝月亮创始人，身价百亿"}
+    {"name": "李东生", "url": "https://baike.baidu.com/item/%E6%9D%8E%E4%B8%9C%E7%94%9F", "type": "财富", "desc": "TCL创始人兼董事长"},
+    {"name": "何小鹏", "url": "https://baike.baidu.com/item/%E4%BD%95%E5%B0%8F%E9%B9%8F", "type": "财富", "desc": "小鹏汽车创始人，身价百亿"},
+    {"name": "黄宏生", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%AE%8F%E7%94%9F", "type": "财富", "desc": "创维集团创始人"},
+    {"name": "罗秋平", "url": "https://baike.baidu.com/item/%E7%BD%97%E7%A7%8B%E5%B9%B3", "type": "财富", "desc": "蓝月亮创始人"}
+  ],
+  "中山大学": [
+    {"name": "黄光裕", "url": "https://baike.baidu.com/item/%E9%BB%84%E5%85%89%E8%A3%95", "type": "财富", "desc": "国美电器创始人"},
+    {"name": "陈寅恪", "url": "https://baike.baidu.com/item/%E9%99%88%E5%AF%85%E6%81%AA", "type": "学术", "desc": "历史学家，古典文学研究家"},
+    {"name": "梁伯强", "url": "https://baike.baidu.com/item/%E6%A2%81%E4%BC%AF%E5%BC%BA", "type": "学术", "desc": "病理学家，中国科学院院士"},
+    {"name": "许宁生", "url": "https://baike.baidu.com/item/%E8%AE%B8%E5%AE%81%E7%94%9F", "type": "学术", "desc": "复旦大学原校长，诺贝尔奖级学者"},
+    {"name": "曾益新", "url": "https://baike.baidu.com/item/%E6%9B%BE%E7%9B%8A%E6%96%B0", "type": "学术", "desc": "国家卫健委副主任，中国科学院院士"}
   ],
   "电子科技大学": [
-    {"name": "丁磊", "url": "https://baike.baidu.com/item/%E4%B8%81%E7%A3%8A", "type": "财富", "desc": "网易创始人兼CEO，身价千亿"},
-    {"name": "刘永言", "url": "https://baike.baidu.com/item/%E5%88%98%E6%B0%B8%E8%A8%80", "type": "财富", "desc": "希望集团创始人，中国民生银行副董事长"},
-    {"name": "曾勇", "url": "https://baike.baidu.com/item/%E6%9B%BE%E5%8B%87", "type": "学术", "desc": "电子科技大学校长，信息与通信工程专家"},
+    {"name": "刘永言", "url": "https://baike.baidu.com/item/%E5%88%98%E6%B0%B8%E8%A8%80", "type": "财富", "desc": "希望集团创始人"},
     {"name": "万永波", "url": "https://baike.baidu.com/item/%E4%B8%87%E6%B0%B8%E6%B3%A2", "type": "技术", "desc": "华为高管，通信技术专家"},
-    {"name": "周涛", "url": "https://baike.baidu.com/item/%E5%91%A8%E6%B6%9B", "type": "学术", "desc": "电子科大教授，大数据专家，成都数之联创始人"}
+    {"name": "曾勇", "url": "https://baike.baidu.com/item/%E6%9B%BE%E5%8B%87", "type": "学术", "desc": "电子科技大学校长"},
+    {"name": "周涛", "url": "https://baike.baidu.com/item/%E5%91%A8%E6%B6%9B", "type": "学术", "desc": "电子科大教授，大数据专家"},
+    {"name": "张小松", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%B0%8F%E6%9D%BE", "type": "技术", "desc": "网络安全专家，国家科技进步一等奖得主"}
+  ],
+  "深圳大学": [
+    {"name": "马化腾", "url": "https://baike.baidu.com/item/%E9%A9%AC%E5%8C%96%E8%85%BE", "type": "财富", "desc": "腾讯创始人兼CEO，身价超3000亿"},
+    {"name": "张志东", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%BF%97%E4%B8%9C", "type": "财富", "desc": "腾讯联合创始人，身价千亿"},
+    {"name": "史玉柱", "url": "https://baike.baidu.com/item/%E5%8F%B2%E7%8E%89%E6%9F%B1", "type": "财富", "desc": "巨人网络创始人（注：深大本科）"},
+    {"name": "梁光伟", "url": "https://baike.baidu.com/item/%E6%A2%81%E5%85%89%E4%BC%9F", "type": "财富", "desc": "深圳华强集团创始人"},
+    {"name": "陈一丹", "url": "https://baike.baidu.com/item/%E9%99%88%E4%B8%80%E4%B8%B9", "type": "财富", "desc": "腾讯联合创始人，腾讯公益发起人"}
   ],
   "南方科技大学": [
     {"name": "薛其坤", "url": "https://baike.baidu.com/item/%E8%96%9B%E5%85%B6%E5%9D%A4", "type": "学术", "desc": "南科大校长，量子物理学家，国家最高科学技术奖得主"},
@@ -129,70 +97,39 @@
     {"name": "俞书宏", "url": "https://baike.baidu.com/item/%E4%BF%9E%E4%B9%A6%E5%AE%8F", "type": "学术", "desc": "材料科学家，中国科学院院士"},
     {"name": "唐本忠", "url": "https://baike.baidu.com/item/%E5%94%90%E6%9C%AC%E5%BF%A0", "type": "学术", "desc": "高分子化学家，中国科学院院士"}
   ],
-  "深圳大学": [
-    {"name": "马化腾", "url": "https://baike.baidu.com/item/%E9%A9%AC%E5%8C%96%E8%85%BE", "type": "财富", "desc": "腾讯创始人兼CEO，身价超3000亿"},
-    {"name": "史玉柱", "url": "https://baike.baidu.com/item/%E5%8F%B2%E7%8E%89%E6%9F%B1", "type": "财富", "desc": "巨人网络创始人，身价百亿"},
-    {"name": "张志东", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%BF%97%E4%B8%9C", "type": "财富", "desc": "腾讯联合创始人，身价千亿"},
-    {"name": "梁光伟", "url": "https://baike.baidu.com/item/%E6%A2%81%E5%85%89%E4%BC%9F", "type": "财富", "desc": "深圳华强集团创始人"},
-    {"name": "陈一丹", "url": "https://baike.baidu.com/item/%E9%99%88%E4%B8%80%E4%B8%B9", "type": "财富", "desc": "腾讯联合创始人，腾讯公益慈善基金会发起人"}
-  ],
-  "北京邮电大学": [
-    {"name": "陈昊芝", "url": "https://baike.baidu.com/item/%E9%99%88%E6%98%8A%E8%8A%9D", "type": "财富", "desc": "触控科技CEO，游戏行业领军人物"},
-    {"name": "唐骏", "url": "https://baike.baidu.com/item/%E5%94%90%E9%AA%8F", "type": "财富", "desc": "微软中国原总裁，盛大网络原总裁"},
-    {"name": "王建宙", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%BB%BA%E5%AE%99", "type": "财富", "desc": "中国移动原董事长，通信行业领袖"},
-    {"name": "邬贺铨", "url": "https://baike.baidu.com/item/%E9%82%AC%E8%B4%BA%E9%93%BE", "type": "学术", "desc": "中国工程院院士，光纤传送网专家"},
-    {"name": "张平", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%B9%B3", "type": "学术", "desc": "中国工程院院士，无线通信专家"}
+  "哈尔滨工业大学": [
+    {"name": "马兴瑞", "url": "https://baike.baidu.com/item/%E9%A9%AC%E5%85%B4%E7%91%9E", "type": "政界", "desc": "广东省省长，航天专家"},
+    {"name": "孙家栋", "url": "https://baike.baidu.com/item/%E5%AD%99%E5%AE%B6%E6%A0%8B", "type": "学术", "desc": "航天专家，两弹一星元勋"},
+    {"name": "栾恩杰", "url": "https://baike.baidu.com/item/%E6%A0%BE%E6%81%A9%E6%9D%B0", "type": "学术", "desc": "中国工程院院士，航天专家"},
+    {"name": "戚发轫", "url": "https://baike.baidu.com/item/%E5%A8%81%E5%8F%91%E8%BD%AB", "type": "学术", "desc": "神舟飞船总设计师"},
+    {"name": "李长春", "url": "https://baike.baidu.com/item/%E6%9D%8E%E9%95%BF%E6%98%A5", "type": "政界", "desc": "中国前政治局常委"}
   ],
   "北京航空航天大学": [
-    {"name": "王永志", "url": "https://baike.baidu.com/item/%E7%8E%8B%E6%B0%B8%E5%BF%97", "type": "学术", "desc": "载人航天工程总设计师，两弹一星元勋"},
-    {"name": "戚发轫", "url": "https://baike.baidu.com/item/%E6%88%9A%E5%8F%91%E8%BD%AB", "type": "学术", "desc": "神舟飞船总设计师，中国工程院院士"},
-    {"name": "罗阳", "url": "https://baike.baidu.com/item/%E7%BD%97%E9%98%B3", "type": "学术", "desc": "中国航母舰载机歼-15总负责人"},
-    {"name": "张军", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%86%9B", "type": "学术", "desc": "北京理工大学校长，中国工程院院士"},
-    {"name": "杨伟", "url": "https://baike.baidu.com/item/%E6%9D%A8%E4%BC%9F", "type": "学术", "desc": "歼-20总设计师，中国科学院院士"},
-    {"name": "王旭东", "url": "https://baike.baidu.com/item/%E7%8E%8B%E6%97%AD%E4%B8%9C", "type": "技术", "desc": "华为高管，通信技术专家"}
-  ],
-  "暨南大学": [
-    {"name": "吴学先", "url": "https://baike.baidu.com/item/%E5%90%B4%E5%AD%A6%E5%85%88", "type": "学术", "desc": "历史学家"},
-    {"name": "钟南山", "url": "https://baike.baidu.com/item/%E9%92%9F%E5%8D%97%E5%B1%B1", "type": "学术", "desc": "中国工程院院士，呼吸病学专家"},
-    {"name": "潘绥铭", "url": "https://baike.baidu.com/item/%E6%BD%98%E7%BB%A5%E9%93%AD", "type": "学术", "desc": "社会学家"},
-    {"name": "曾宪梓", "url": "https://baike.baidu.com/item/%E6%9B%BE%E5%AE%AA%E6%A2%93", "type": "财富", "desc": "金利来创始人，爱国企业家"},
-    {"name": "许鸿飞", "url": "https://baike.baidu.com/item/%E8%AE%B8%E9%B8%BF%E9%A3%9E", "type": "艺术", "desc": "雕塑家，广州雕塑院院长"}
-  ],
-  "华南师范大学": [
-    {"name": "许晨阳", "url": "https://baike.baidu.com/item/%E8%AE%B8%E6%99%A8%E9%98%B3", "type": "学术", "desc": "数学家，美国麻省理工学院教授"},
-    {"name": "钟南山", "url": "https://baike.baidu.com/item/%E9%92%9F%E5%8D%97%E5%B1%B1", "type": "学术", "desc": "中国工程院院士"},
-    {"name": "韩寒", "url": "https://baike.baidu.com/item/%E9%9F%A9%E5%AF%92", "type": "艺术", "desc": "作家、导演、赛车手"},
-    {"name": "刘斯奋", "url": "https://baike.baidu.com/item/%E5%88%98%E6%96%AF%E5%A5%8B", "type": "学术", "desc": "作家、画家，广东文联原主席"},
-    {"name": "陈小明", "url": "https://baike.baidu.com/item/%E9%99%88%E5%B0%8F%E6%98%8E", "type": "学术", "desc": "中国科学院院士，无机化学家"}
-  ],
-  "广东工业大学": [
-    {"name": "陈勇", "url": "https://baike.baidu.com/item/%E9%99%88%E5%8B%87", "type": "学术", "desc": "中国工程院院士，能源与环境专家"},
-    {"name": "邱冠周", "url": "https://baike.baidu.com/item/%E9%82%B1%E5%86%A0%E5%91%A8", "type": "学术", "desc": "中国工程院院士，矿物工程专家"},
-    {"name": "蔡睿贤", "url": "https://baike.baidu.com/item/%E8%94%A1%E7%9D%BF%E8%B4%A4", "type": "学术", "desc": "工程热物理学家"},
-    {"name": "林浩然", "url": "https://baike.baidu.com/item/%E6%9E%97%E6%B5%A9%E7%84%B6", "type": "学术", "desc": "中国工程院院士，鱼类生理学家"},
-    {"name": "罗锡文", "url": "https://baike.baidu.com/item/%E7%BD%97%E9%94%A1%E6%96%87", "type": "学术", "desc": "中国工程院院士，农业机械化专家"}
+    {"name": "王永志", "url": "https://baike.baidu.com/item/%E7%8E%8B%E6%B0%B8%E5%BF%97", "type": "学术", "desc": "载人航天工程总设计师"},
+    {"name": "戚发轫", "url": "https://baike.baidu.com/item/%E6%88%9A%E5%8F%91%E8%BD%AB", "type": "学术", "desc": "神舟飞船总设计师"},
+    {"name": "罗阳", "url": "https://baike.baidu.com/item/%E7%BD%97%E9%98%B3", "type": "学术", "desc": "歼-15舰载机研制现场总指挥"},
+    {"name": "杨伟", "url": "https://baike.baidu.com/item/%E6%9D%A8%E4%BC%9F", "type": "学术", "desc": "歼-20总设计师"},
+    {"name": "张军", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%86%9B", "type": "学术", "desc": "北京理工大学校长，中国工程院院士"}
   ],
   "香港大学": [
     {"name": "孙中山", "url": "https://baike.baidu.com/item/%E5%AD%99%E4%B8%AD%E5%B1%B1", "type": "政界", "desc": "中国近代伟大的民主革命先行者"},
     {"name": "张爱玲", "url": "https://baike.baidu.com/item/%E5%BC%A0%E7%88%B1%E7%8E%B2", "type": "艺术", "desc": "中国现代作家"},
-    {"name": "何鸿燊", "url": "https://baike.baidu.com/item/%E4%BD%95%E9%B8%BF%E7%87%8A", "type": "财富", "desc": "澳门赌王，身价千亿"},
-    {"name": "梁锦松", "url": "https://baike.baidu.com/item/%E6%A2%81%E9%94%A6%E6%9D%BE", "type": "财富", "desc": "香港前财政司司长，百仕通大中华区主席"},
-    {"name": "陈方安生", "url": "https://baike.baidu.com/item/%E9%99%88%E6%96%B9%E5%AE%89%E7%94%9F", "type": "政界", "desc": "香港前政务司司长"},
-    {"name": "黄霑", "url": "https://baike.baidu.com/item/%E9%BB%84%E9%9C%91", "type": "艺术", "desc": "词曲家、作家、主持人"}
+    {"name": "何鸿燊", "url": "https://baike.baidu.com/item/%E4%BD%95%E9%B8%BF%E7%87%8A", "type": "财富", "desc": "澳门赌王"},
+    {"name": "黄霑", "url": "https://baike.baidu.com/item/%E9%BB%84%E9%9C%91", "type": "艺术", "desc": "词曲家、作家、主持人"},
+    {"name": "梁锦松", "url": "https://baike.baidu.com/item/%E6%A2%81%E9%94%A6%E6%9D%BE", "type": "财富", "desc": "香港前财政司司长"}
   ],
   "香港中文大学": [
     {"name": "丘成桐", "url": "https://baike.baidu.com/item/%E4%B8%98%E6%88%90%E6%A1%90", "type": "学术", "desc": "菲尔兹奖得主，数学家"},
     {"name": "徐立之", "url": "https://baike.baidu.com/item/%E5%BE%90%E7%AB%8B%E4%B9%8B", "type": "学术", "desc": "香港大学原校长，遗传学家"},
-    {"name": "李开复", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%BC%80%E5%A4%8D", "type": "技术", "desc": "创新工场创始人，AI专家"},
     {"name": "郑裕彤", "url": "https://baike.baidu.com/item/%E9%83%91%E8%A3%95%E5%BD%A4", "type": "财富", "desc": "新世界发展创始人，周大福创始人"},
-    {"name": "金庸", "url": "https://baike.baidu.com/item/%E9%87%91%E5%BA%B8", "type": "艺术", "desc": "武侠小说大师"}
+    {"name": "金庸", "url": "https://baike.baidu.com/item/%E9%87%91%E5%BA%B8", "type": "艺术", "desc": "武侠小说大师"},
+    {"name": "李开复", "url": "https://baike.baidu.com/item/%E6%9D%8E%E5%BC%80%E5%A4%8D", "type": "技术", "desc": "创新工场创始人，AI专家"}
   ],
-  "同济大学": [
-    {"name": "乔布斯（不适用）", "url": "", "type": "", "desc": ""},
-    {"name": "汪品先", "url": "https://baike.baidu.com/item/%E6%B1%AA%E5%93%81%E5%85%88", "type": "学术", "desc": "海洋地质学家，中国科学院院士"},
-    {"name": "项海帆", "url": "https://baike.baidu.com/item/%E9%A1%B9%E6%B5%B7%E5%B8%86", "type": "学术", "desc": "桥梁工程专家，中国工程院院士"},
-    {"name": "姚明", "url": "https://baike.baidu.com/item/%E5%A7%9A%E6%98%8E", "type": "体育", "desc": "中国篮协主席，前NBA球星"},
-    {"name": "裴钢", "url": "https://baike.baidu.com/item/%E8%A3%B4%E9%92%A2", "type": "学术", "desc": "细胞生物学家，中国科学院院士"},
-    {"name": "郑时龄", "url": "https://baike.baidu.com/item/%E9%83%91%E6%97%B6%E9%BE%84", "type": "学术", "desc": "建筑学家，中国科学院院士"}
+  "北京邮电大学": [
+    {"name": "唐骏", "url": "https://baike.baidu.com/item/%E5%94%90%E9%AA%8F", "type": "财富", "desc": "微软中国原总裁"},
+    {"name": "王建宙", "url": "https://baike.baidu.com/item/%E7%8E%8B%E5%BB%BA%E5%AE%99", "type": "财富", "desc": "中国移动原董事长"},
+    {"name": "邬贺铨", "url": "https://baike.baidu.com/item/%E9%82%AC%E8%B4%BA%E9%93%BE", "type": "学术", "desc": "中国工程院院士，光纤传送网专家"},
+    {"name": "张平", "url": "https://baike.baidu.com/item/%E5%BC%A0%E5%B9%B3", "type": "学术", "desc": "中国工程院院士，无线通信专家"},
+    {"name": "陈俊亮", "url": "https://baike.baidu.com/item/%E9%99%88%E4%BF%8A%E4%BA%AE", "type": "学术", "desc": "中国工程院院士，通信与电子系统专家"}
   ]
 }
