@@ -1,0 +1,7 @@
+{
+  "builds": [{"src": "index.html", "use": "@vercel/static"}],
+  "rewrites": [
+    {"source": "/api/(.*)", "destination": "https://wiley-instances-titles-maiden.trycloudflare.com/api/$1"},
+    {"source": "/(.*)", "destination": "/index.html"}
+  ]
+}

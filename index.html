@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#302b63">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>🧠 雪峰人AI - 高考升学规划</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  min-height:100vh;color:#333;padding:0;
+  -webkit-font-smoothing:antialiased;
+}
+.app{max-width:900px;margin:0 auto;padding:16px}
+
+/* Header */
+.header{
+  text-align:center;padding:28px 16px 16px;color:white;
+  background:linear-gradient(180deg,rgba(255,255,255,0.08),transparent);
+  border-radius:0 0 24px 24px;margin:-16px -16px 16px;
+}
+.header h1{font-size:24px;font-weight:700;letter-spacing:0.5px}
+.header h1 span{background:linear-gradient(135deg,#fbbf24,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header p{font-size:13px;opacity:0.7;margin-top:4px}
+.header .tag{display:inline-block;background:rgba(255,255,255,0.12);padding:3px 12px;border-radius:20px;font-size:11px;margin-top:8px;color:#fbbf24}
+
+/* Cards */
+.card{background:rgba(255,255,255,0.96);border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 16px rgba(0,0,0,0.08);transition:transform .2s}
+.card-title{font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title .badge{background:#4a6cf7;color:white;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:10px;border:none;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:#4a6cf7;color:white}
+.btn-primary:hover{background:#3b5de7}
+.btn-success{background:#22c55e;color:white}
+.btn-warning{background:#f59e0b;color:white}
+.btn-danger{background:#ef4444;color:white}
+.btn-outline{background:transparent;border:1.5px solid #4a6cf7;color:#4a6cf7}
+.btn-block{width:100%;justify-content:center;padding:14px;font-size:15px}
+
+/* User Cards */
+.user-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.user-card{
+  background:white;border-radius:14px;padding:20px;text-align:center;
+  cursor:pointer;transition:all .2s;border:2px solid transparent;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.user-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+.user-card:active{transform:scale(0.97)}
+.user-card .avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px}
+.user-card.ranbao .avatar{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.user-card.tingbao .avatar{background:linear-gradient(135deg,#d1fae5,#a7f3d0)}
+.user-card .name{font-size:15px;font-weight:600}
+.user-card .school{font-size:11px;color:#888;margin-top:2px}
+.user-card .hint{font-size:11px;color:#aaa;margin-top:6px}
+.user-card.selected{border-color:#4a6cf7;box-shadow:0 0 0 3px rgba(74,108,247,0.15)}
+
+/* Password Dialog */
+.overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.dialog{background:white;border-radius:16px;padding:28px;max-width:360px;width:100%;text-align:center}
+.dialog h3{font-size:17px;margin-bottom:4px}
+.dialog p{font-size:13px;color:#888;margin-bottom:16px}
+.dialog input{width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;text-align:center;outline:none;margin-bottom:12px}
+.dialog input:focus{border-color:#4a6cf7}
+
+/* Password Input */
+.pwd-input-wrapper{position:relative;margin-bottom:12px}
+.pwd-input-wrapper input{width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;text-align:center;outline:none;letter-spacing:8px}
+.pwd-input-wrapper input:focus{border-color:#4a6cf7}
+
+/* Result Area */
+.result-area{display:none}
+.result-area.active{display:block}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-header .back-btn{font-size:12px;color:#4a6cf7;cursor:pointer}
+.info-tag{display:inline-block;background:#eef2ff;color:#4a6cf7;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;margin:2px}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-yellow{background:#fef9c3;color:#854d0e}
+.badge-red{background:#fee2e2;color:#991b1b}
+
+/* Tables */
+.score-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.score-table th{background:#f1f5f9;padding:6px 8px;text-align:center;font-weight:600}
+.score-table td{padding:5px 8px;text-align:center;border-bottom:1px solid #f1f5f9}
+.score-table tr:hover{background:#f8fafc}
+.badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:20px;margin:8px 0}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:#e2e8f0}
+.timeline-item{position:relative;padding:4px 0 4px 16px;font-size:12px;color:#555;line-height:1.5}
+.timeline-item::before{content:'';position:absolute;left:-3px;top:10px;width:8px;height:8px;border-radius:50%;background:#4a6cf7;border:2px solid white}
+
+/* Major Cards */
+.major-card{background:#f8fafc;border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #e2e8f0}
+.major-card .m-name{font-weight:600;font-size:13px;color:#1a1a2e}
+.major-card .m-schools{font-size:11px;color:#666;margin-top:4px}
+.major-card .m-reason{font-size:11px;color:#888;margin-top:4px}
+.major-card .m-priority{display:inline-block;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:600;margin-bottom:4px}
+
+/* Advice Box */
+.advice-box{background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:14px;margin:10px 0;font-size:12px;line-height:1.7}
+.advice-box .title{font-weight:600;font-size:13px;margin-bottom:6px;color:#92400e}
+/* Study Advice */
+.study-advice{background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:12px;margin:10px 0;font-size:12px;line-height:1.7}
+.study-advice .title{font-weight:600;font-size:13px;margin-bottom:6px;color:#92400e}
+
+/* Chat */
+.chat-fab{
+  position:fixed;bottom:20px;right:20px;width:56px;height:56px;
+  border-radius:50%;background:#4a6cf7;color:white;border:none;
+  font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(74,108,247,0.4);
+  display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:900;
+}
+.chat-fab:hover{transform:scale(1.08)}
+.chat-fab:active{transform:scale(0.95)}
+.chat-panel{
+  position:fixed;bottom:0;right:0;width:100%;max-width:420px;height:80vh;max-height:640px;
+  background:white;border-radius:20px 20px 0 0;box-shadow:0 -4px 30px rgba(0,0,0,0.2);
+  display:none;flex-direction:column;z-index:1000;overflow:hidden;
+}
+.chat-panel.open{display:flex}
+.chat-header{
+  background:#4a6cf7;color:white;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+}
+.chat-header .title{font-weight:600;font-size:14px}
+.chat-close{cursor:pointer;font-size:20px;opacity:0.8;background:none;border:none;color:white}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;background:#f8f9fc}
+.chat-msg{margin-bottom:12px;display:flex}
+.chat-msg.user{justify-content:flex-end}
+.chat-msg .bubble{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6}
+.chat-msg.bot .bubble{background:white;color:#333;border:1px solid #e8ecf4}
+.chat-msg.user .bubble{background:#4a6cf7;color:white}
+.chat-msg .bubble img{max-width:200px;border-radius:8px;display:block;margin-top:4px}
+.chat-input-area{
+  display:flex;padding:10px 12px;border-top:1px solid #e8ecf4;
+  background:white;gap:6px;flex-shrink:0;
+}
+.chat-input-area input{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:13px;outline:none}
+.chat-input-area input:focus{border-color:#4a6cf7}
+.chat-input-area button{background:#4a6cf7;color:white;border:none;border-radius:10px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap}
+.chat-input-area button:disabled{background:#ccc;cursor:not-allowed}
+.typing-dots::after{content:'...';animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* Mood Bar */
+.mood-bar{display:flex;padding:6px 12px;gap:5px;background:#f0f2f8;border-bottom:1px solid #e8ecf4;flex-shrink:0}
+.mood-btn{flex:1;padding:5px 6px;border-radius:14px;border:none;font-size:11px;cursor:pointer;text-align:center;transition:all .2s;font-weight:500}
+.mood-btn:hover{transform:scale(1.05)}
+.mood-btn.m-depressed{background:#fef2f2;color:#991b1b}
+.mood-btn.m-calm{background:#f0f9ff;color:#1e3a5f}
+.mood-btn.m-happy{background:#f0fdf4;color:#166534}
+
+/* Custom user form */
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none}
+.form-group input:focus{border-color:#4a6cf7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-step{display:none}
+.form-step.active{display:block}
+
+/* Loading */
+.loading-spinner{display:flex;align-items:center;justify-content:center;padding:40px}
+.spinner{width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:#4a6cf7;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Progress Steps */
+.progress{display:flex;gap:6px;margin-bottom:16px;justify-content:center}
+.progress .dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:all .3s}
+.progress .dot.active{background:#4a6cf7;width:24px;border-radius:4px}
+
+/* Login Hint */
+.login-hint{text-align:center;padding:16px;color:#888;font-size:13px;background:#f8f9fc;border-radius:12px;margin:8px 0}
+
+/* Footer */
+.footer{text-align:center;padding:20px;color:rgba(255,255,255,0.4);font-size:11px}
+
+/* Empty State */
+.empty-state{text-align:center;padding:30px 16px;color:#888}
+.empty-state .icon{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:13px;line-height:1.6}
+
+/* Animations */
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:480px){
+  .header h1{font-size:20px}
+  .user-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .chat-panel{max-width:100%;height:90vh}
+}
+@media(min-width:768px){
+  .app{padding:24px}
+  .header{border-radius:20px;margin:-24px -24px 20px;padding:40px 24px 24px}
+}
+</style>
+<script>window._RANBAO={"user_name": "燃爆", "user_school": "深圳科学高中", "school_tier": "深圳第二梯队头部（全市约10-12名）", "school_size": 1000, "estimated_province_rank_min": 800, "estimated_province_rank_max": 1500, "estimated_score_min": 665, "estimated_score_max": 680, "family_background": "A8-A9，父母深圳互联网公司+海外资产", "family_implication": "⚠️ 不适用'普通家庭生存优先'假设。金融/创业/出国等路径全面打开", "exam_scores": {"数学": 120, "语文": 109.5, "英语": 125, "物理": 89, "化学": 84, "生物": 95}, "exam_ranks": {"数学": 15, "语文": 380, "英语": 89, "物理": 12, "化学": 78, "生物": 16}, "interests": "对理科感兴趣，最喜欢数学", "weak_analysis": ["数学(#15/1000, top 2%) — ✅ 优势", "语文(#380/1000, top 38%) — ⚠️ 偏弱，有提升空间", "英语(#89/1000, top 9%) — ✅ 优势", "物理(#12/1000, top 1%) — ✅ 优势", "化学(#78/1000, top 8%) — ✅ 优势", "生物(#16/1000, top 2%) — ✅ 优势"], "segment": {"level": "A+段", "description": "C9/华五主力层"}, "chong_wen_bao": {"chong": [{"name": "清华大学", "level": "985/211/双一流", "rank_soft": 1, "province": "北京", "city": "北京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 688, "min_rank": 88, "enrollment_plan": 45}, {"name": "北京大学", "level": "985/211/双一流", "rank_soft": 2, "province": "北京", "city": "北京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 686, "min_rank": 105, "enrollment_plan": 40}, {"name": "浙江大学", "level": "985/211/双一流", "rank_soft": 3, "province": "浙江", "city": "杭州", "has_qiangji": 1, "has_zongping_gd": 1, "min_score": 678, "min_rank": 540, "enrollment_plan": 75}, {"name": "上海交通大学", "level": "985/211/双一流", "rank_soft": 4, "province": "上海", "city": "上海", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 677, "min_rank": 590, "enrollment_plan": 38}, {"name": "复旦大学", "level": "985/211/双一流", "rank_soft": 5, "province": "上海", "city": "上海", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 676, "min_rank": 640, "enrollment_plan": 20}], "wen": [{"name": "浙江大学", "level": "985/211/双一流", "rank_soft": 3, "province": "浙江", "city": "杭州", "has_qiangji": 1, "has_zongping_gd": 1, "min_score": 678, "min_rank": 540, "enrollment_plan": 75}, {"name": "上海交通大学", "level": "985/211/双一流", "rank_soft": 4, "province": "上海", "city": "上海", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 677, "min_rank": 590, "enrollment_plan": 38}, {"name": "复旦大学", "level": "985/211/双一流", "rank_soft": 5, "province": "上海", "city": "上海", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 676, "min_rank": 640, "enrollment_plan": 20}, {"name": "南京大学", "level": "985/211/双一流", "rank_soft": 6, "province": "江苏", "city": "南京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 671, "min_rank": 920, "enrollment_plan": 35}, {"name": "中国科学技术大学", "level": "985/211/双一流", "rank_soft": 7, "province": "安徽", "city": "合肥", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 670, "min_rank": 1000, "enrollment_plan": 30}, {"name": "北京航空航天大学", "level": "985/211/双一流", "rank_soft": 11, "province": "北京", "city": "北京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 662, "min_rank": 1650, "enrollment_plan": 35}, {"name": "武汉大学", "level": "985/211/双一流", "rank_soft": 8, "province": "湖北", "city": "武汉", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 660, "min_rank": 1800, "enrollment_plan": 120}, {"name": "华中科技大学", "level": "985/211/双一流", "rank_soft": 9, "province": "湖北", "city": "武汉", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 656, "min_rank": 2200, "enrollment_plan": 135}], "bao": [{"name": "南京大学", "level": "985/211/双一流", "rank_soft": 6, "province": "江苏", "city": "南京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 671, "min_rank": 920, "enrollment_plan": 35}, {"name": "中国科学技术大学", "level": "985/211/双一流", "rank_soft": 7, "province": "安徽", "city": "合肥", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 670, "min_rank": 1000, "enrollment_plan": 30}, {"name": "北京航空航天大学", "level": "985/211/双一流", "rank_soft": 11, "province": "北京", "city": "北京", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 662, "min_rank": 1650, "enrollment_plan": 35}, {"name": "武汉大学", "level": "985/211/双一流", "rank_soft": 8, "province": "湖北", "city": "武汉", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 660, "min_rank": 1800, "enrollment_plan": 120}, {"name": "华中科技大学", "level": "985/211/双一流", "rank_soft": 9, "province": "湖北", "city": "武汉", "has_qiangji": 1, "has_zongping_gd": 0, "min_score": 656, "min_rank": 2200, "enrollment_plan": 135}]}, "qiangji": {"recommended": true, "reason": "强基计划适合分数在目标校边缘且有学科特长的考生", "suitable_schools": [{"name": "清华大学", "rank_soft": 1, "level": "985/211/双一流", "province": "北京", "majors": "[\"数学与应用数学\", \"物理学\", \"化学\", \"生物科学\", \"信息与计算科学\", \"力学类\", \"哲学\", \"历史学\", \"中国语言文学\"]", "exam_format": "笔试+面试+体测", "registration_date": "4.10-4.30", "notes": "破格名额增至130人；强基学生可在书院之间自由转专业"}, {"name": "北京大学", "rank_soft": 2, "level": "985/211/双一流", "province": "北京", "majors": "[\"数学类\", \"物理学类\", \"化学类\", \"生物科学类\", \"力学类\", \"历史学类\", \"哲学类\", \"考古学\", \"中国语言文学类\"]", "exam_format": "笔试+面试+体测", "registration_date": "4.10-4.30", "notes": "破格生报名截止4月24日"}, {"name": "浙江大学", "rank_soft": 3, "level": "985/211/双一流", "province": "浙江", "majors": "[\"数学与应用数学\", \"物理学\", \"化学\", \"生物科学\", \"生态学\", \"工程力学\", \"哲学\", \"历史学\", \"汉语言文学\"]", "exam_format": "笔试+面试+体测", "registration_date": "4.10-4.30", "notes": "综评在广东招生（海宁国际校区）"}, {"name": "上海交通大学", "rank_soft": 4, "level": "985/211/双一流", "province": "上海", "majors": "[\"数学与应用数学\", \"物理学\", \"化学\", \"生物科学\", \"工程力学\", \"哲学\", \"历史学\"]", "exam_format": "笔试+面试+体测", "registration_date": "4.10-4.30", "notes": "加入'复交南'模式"}, {"name": "复旦大学", "rank_soft": 5, "level": "985/211/双一流", "province": "上海", "majors": "[\"数学与应用数学\", \"物理学\", \"化学\", \"生物科学\", \"工程力学\", \"哲学\", \"历史学\", \"中国语言文学\"]", "exam_format": "面试+体测（部分专业取消笔试）", "registration_date": "4.8-4.30", "notes": "数学、物理类专业A类复试取消笔试；B类破格生4.26截止"}], "tip_2026": ["物理强可关注电子科大、华南理工的单科加权政策", "数学≥145分可关注华南理工、天津大学单科破格政策"]}, "zongping": {"recommended": true, "reason": "综合评价是广东考生的优势通道，可报多所互不影响", "high_level": [], "medium_level": [], "tip": "广东综评可同时报多所，建议把能报的都报上"}, "majors": [{"major": "计算机科学与技术", "schools": [["浙江大学", "A+"], ["上海交通大学", "A"], ["南京大学", "A"], ["中国科学技术大学", "A"]], "priority": "🥇 强推", "reason": "计算机是硬通货，不进化就淘汰。", "suitable": true, "note": "雪峰人：低端饱和高端缺人。大一大二死磕算法和数学。"}, {"major": "人工智能", "schools": [["浙江大学", "A+"], ["上海交通大学", "A+"], ["南京大学", "A"], ["中国科学技术大学", "A"]], "priority": "🥇 强推", "reason": "未来十年最热赛道，2026年AI岗薪资涨18%。", "suitable": true, "note": "想做AI算法得读到硕博。"}, {"major": "集成电路/电子", "schools": [["复旦大学", "A"], ["电子科技大学", "A+"], ["西安电子科技大学", "A+"], ["东南大学", "A"]], "priority": "🥇 强推", "reason": "卡脖子领域，大基金3440亿砸进去，人才缺口30万。", "suitable": true, "note": "雪峰人：唯一可以靠'国家战略'吃饭的专业。"}, {"major": "机器人工程", "schools": [["哈尔滨工业大学", "A+"], ["华中科技大学", "A+"], ["上海交通大学", "A"]], "priority": "🥈 推荐", "reason": "制造业升级+老龄化，机器人需求只增不减。", "suitable": true, "note": "深圳大疆优必选都在招，动手能力越强越吃香。"}, {"major": "师范（公费师范生/信息技术方向）", "schools": [["北京师范大学", "A+"], ["华东师范大学", "A+"]], "priority": "🥈 推荐", "reason": "编制+寒暑假+越老越吃香。深圳教师年薪25-40万。", "suitable": true, "note": "公费师范生优先。别只盯着深圳，珠三角遍地是机会。"}, {"major": "商科/管理（企业管理方向）", "schools": [["香港大学", "QS17"], ["香港科技大学", "QS44"], ["北京大学", "A+"], ["复旦大学", "A+"]], "priority": "🥇 强推（限A8-A9）", "reason": "未来要继承或管理家族企业，技术+商科是黄金组合。", "suitable": true, "note": ""}, {"major": "金融/金融科技", "schools": [["北京大学", "A+"], ["清华大学", "A+"], ["复旦大学", "A+"], ["上海交通大学", "A+"], ["中国人民大学", "A+"]], "priority": "🥇 推荐（限A8-A9）", "reason": "家里有资源，金融是高回报赛道。", "suitable": true, "note": "但必须考上清北复交人+港三校+国外TOP30才有意义。"}], "timeline": [{"period": "2026年7-8月（暑假）", "tasks": ["确定目标院校和专业方向", "刷强基校测题（数学+物理竞赛基础）", "开始了解综评院校的特点和要求", "制定高二学习计划"]}, {"period": "2026年9月-2027年1月（高二上）", "tasks": ["保持成绩，燃爆目标年级前10，挺饱目标年级前50", "数学/物理/英语重点突破", "关注2027年强基/综评政策动态", "开始准备综评材料（竞赛/活动/社会实践）"]}, {"period": "2027年2-7月（高二下）", "tasks": ["全力保持成绩", "参加学业水平考试", "暑假开始高三一轮复习", "确定强基/综评目标校"]}, {"period": "2027年8月-2028年6月（高三）", "tasks": ["一轮复习、二轮复习、三轮冲刺", "2028年4月：强基计划报名（如适用）", "2028年5月：综合评价报名", "2028年6月7-9日：高考 🎯", "6月中旬：综评校测", "6月底：出分+强基校测", "7月：志愿填报+录取"]}], "future_outlook": {"top_industries_10y": ["人工智能全产业链（国产AI芯片、大模型、人形机器人）", "新能源与储能（光伏/风电/固态电池/氢能）", "半导体与先进制造（国产替代主线）", "生物医药与生命科技（老龄化+基因技术）", "低空经济（无人机+eVTOL飞行器）"], "geo_impact": "中美博弈长期化，选专业应优先考虑国家重点扶持产业方向", "career_advice_10y": ["A8-A9家庭优先考虑技术+管理路径，本科STEM+硕士商科", "AI工具使用能力是2030年后的生存底线，无论什么专业都必须掌握", "没有一劳永逸的专业，持续学习能力比专业本身更重要", "城市大于学校大于专业：深圳/广州的实习机会碾压内陆城市", "本科打基础、硕士定方向——学历通胀下硕士已是标配", "技术+管理/技术+产品的复合型人才最抗周期波动"], "risk_warning": "你的选择方向目前风险可控"}, "top3_unis": [{"name": "清华大学", "level": "chong", "source": "冲稳保", "stars": 3}, {"name": "北京大学", "level": "chong", "source": "冲稳保", "stars": 2}, {"name": "浙江大学", "level": "chong", "source": "冲稳保", "stars": 1}]};window._TINGBAO=null;</script></head>
+<body>
+<div class="app" id="app">
+
+<!-- Header -->
+<div class="header">
+  <h1>🧠 <span>雪峰人AI</span></h1>
+  <p>高考升学规划 · 基于张雪峰思维体系</p>
+  <span class="tag">📊 数据驱动 · 💼 就业优先 · 🎯 精准推荐</span>
+</div>
+
+<!-- Home: User Selection -->
+<div id="pageHome">
+  <div class="card">
+    <div class="card-title">👤 选择学生</div>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">点击学生卡片查看个性化升学方案，或选择「自己来」开始评估</p>
+    <div class="user-grid">
+      <div class="user-card ranbao" onclick="checkPassword('燃爆')">
+        <div class="avatar">🔥</div>
+        <div class="name">燃爆</div>
+        <div class="school">深圳科学高中</div>
+        <div class="hint">C9冲顶 · 强基路线</div>
+      </div>
+      <div class="user-card tingbao" onclick="checkPassword('挺饱')">
+        <div class="avatar">🍜</div>
+        <div class="name">挺饱</div>
+        <div class="school">深北莫附中</div>
+        <div class="hint">综评冲985 · 稳211</div>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-block" onclick="showCustomForm()">✏️ 自己来 · 开始评估</button>
+  </div>
+
+  <div class="card" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);text-align:center;padding:24px">
+    <div style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.7">
+      已收录 <strong style="color:#fbbf24">100</strong> 所中国大学 · <strong style="color:#fbbf24">198</strong> 所QS全球大学<br>
+      <strong style="color:#fbbf24">8</strong> 大行业趋势 · <strong style="color:#fbbf24">20</strong> 家大湾区企业薪资数据
+    </div>
+  </div>
+
+  <div class="footer">雪峰人AI v2.0 · MIT License</div>
+</div>
+
+<!-- Password Dialog -->
+<div class="overlay" id="pwdDialog">
+  <div class="dialog fade-in">
+    <div style="font-size:40px;margin-bottom:8px" id="pwdEmoji">🔒</div>
+    <h3 id="pwdTitle">输入密码</h3>
+    <p id="pwdHint">请输入该学生的访问密码</p>
+    <div class="pwd-input-wrapper">
+      <input type="password" id="pwdInput" placeholder="输入密码" onkeydown="if(event.key==='Enter')submitPassword()" autocomplete="off">
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline" style="flex:1" onclick="closeDialog()">取消</button>
+      <button class="btn btn-primary" style="flex:1" onclick="submitPassword()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- Result Area -->
+<div class="result-area" id="resultArea">
+  <div id="resultContent"></div>
+</div>
+
+<!-- Custom Form -->
+<div class="result-area" id="customFormArea">
+  <div class="card">
+    <div class="section-header">
+      <span class="card-title">📋 你的升学情况</span>
+      <span class="back-btn" onclick="backHome()">← 返回首页</span>
+    </div>
+    <div class="progress" id="formProgress">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+    
+    <div id="formStep1" class="form-step active">
+      <div class="form-group"><label>👤 你的名字</label><input type="text" id="fName" placeholder="如：小明" oninput="checkForm()"></div>
+      <div class="form-group"><label>📚 高中学校</label><input type="text" id="fSchool" placeholder="如：深圳中学" oninput="checkForm()"></div>
+      <div class="form-group"><label>📖 年级</label><select id="fGrade"><option value="高一">高一</option><option value="高二">高二</option><option value="高三">高三</option></select></div>
+      <div class="form-group"><label>🔬 选科组合</label><input type="text" id="fSubjects" placeholder="如：物化生、历政地" oninput="checkForm()"></div>
+      <button class="btn btn-primary btn-block" id="formNext1" onclick="nextFormStep(2)" disabled>下一步</button>
+    </div>
+    
+    <div id="formStep2" class="form-step">
+      <div class="form-row">
+        <div class="form-group"><label>📊 总分</label><input type="number" id="fScore" placeholder="如：622" oninput="checkForm()"></div>
+        <div class="form-group"><label>📊 年级排名</label><input type="number" id="fRank" placeholder="如：5" oninput="checkForm()"></div>
+      </div>
+      <div class="form-group"><label>📊 年级总人数</label><input type="number" id="fSize" placeholder="如：1000" value="500" oninput="checkForm()"></div>
+      <div class="form-row">
+        <div class="form-group"><label>📐 数学</label><input type="number" id="fMath" placeholder="0" oninput="checkForm()"></div>
+        <div class="form-group"><label>📖 语文</label><input type="number" id="fChinese" placeholder="0" oninput="checkForm()"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>🇬🇧 英语</label><input type="number" id="fEnglish" placeholder="0" oninput="checkForm()"></div>
+        <div class="form-group"><label>⚡ 物理</label><input type="number" id="fPhysics" placeholder="0" oninput="checkForm()"></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="formNext2" onclick="nextFormStep(3)" disabled>下一步</button>
+    </div>
+    
+    <div id="formStep3" class="form-step">
+      <div class="form-row">
+        <div class="form-group"><label>🧪 化学</label><input type="number" id="fChemistry" placeholder="0"></div>
+        <div class="form-group"><label>🔬 生物/地理</label><input type="number" id="fBio" placeholder="0"></div>
+      </div>
+      <div class="form-group"><label>🏠 家庭情况</label>
+        <select id="fFamily">
+          <option value="普通工薪家庭，父母是公司职员或普通工人">普通工薪家庭</option>
+          <option value="中产家庭，父母是企业中层或专业人士">中产家庭</option>
+          <option value="做生意或开公司，年收入50万以上">做生意/开公司</option>
+          <option value="家族企业或高净值家庭，A8以上">富裕家庭(A8+)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>💡 未来想做什么？</label>
+        <select id="fGoal">
+          <option value="当程序员/技术专家">当程序员/技术专家</option>
+          <option value="创业/开公司">创业/开公司</option>
+          <option value="当老师/公务员">当老师/公务员</option>
+          <option value="出国留学">出国留学</option>
+          <option value="继承家业/管理家族企业">继承家业</option>
+          <option value="还不确定">还不确定</option>
+        </select>
+      </div>
+      <div class="form-group"><label>🎯 目标大学/专业（选填）</label><input type="text" id="fTarget" placeholder="如：想冲华工计算机"></div>
+      <button class="btn btn-success btn-block" onclick="submitCustomForm()">🚀 生成我的升学方案</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- Chat FAB -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" style="display:none">💬</button>
+
+<!-- Chat Panel -->
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <span class="title">💬 雪峰人AI顾问</span>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="mood-bar">
+    <button class="mood-btn m-depressed" onclick="sendMood('想跳楼','depressed')">😰 想跳楼</button>
+    <button class="mood-btn m-calm" onclick="sendMood('如止水','calm')">😌 如止水</button>
+    <button class="mood-btn m-happy" onclick="sendMood('太爽了','happy')">😄 太爽了</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="chat-msg bot">
+      <div class="bubble">你好！我是你的升学顾问。有什么想问的尽管说——选专业、挑学校、学习方法、焦虑情绪，什么都能聊。😊</div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="输入问题..." onkeydown="if(event.key==='Enter')sendChat()" autocomplete="off">
+    <button id="chatSendBtn" onclick="sendChat()">发送</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// State
+// ═══════════════════════════════════════
+let currentUser = '';
+let chatUser = '';
+let _lastMoodClass = '';
+let pendingFile = null;
+let shownAnswerIds = new Set();
+let formData = {};
+
+// ═══════════════════════════════════════
+// Navigation
+// ═══════════════════════════════════════
+function backHome(){
+  document.getElementById('resultArea').classList.remove('active');
+  document.getElementById('customFormArea').classList.remove('active');
+  document.getElementById('pageHome').style.display='block';
+  document.getElementById('chatFab').style.display='none';
+  currentUser='';
+}
+
+function showCustomForm(){
+  document.getElementById('pageHome').style.display='none';
+  document.getElementById('customFormArea').classList.add('active');
+  formData={};
+  document.getElementById('formStep1').classList.add('active');
+  document.getElementById('formStep2').classList.remove('active');
+  document.getElementById('formStep3').classList.remove('active');
+  updateFormProgress(1);
+}
+
+function checkForm(){
+  const s1 = document.getElementById('fName').value && document.getElementById('fSchool').value && document.getElementById('fSubjects').value;
+  document.getElementById('formNext1').disabled=!s1;
+  const s2 = document.getElementById('fScore').value && document.getElementById('fRank').value;
+  document.getElementById('formNext2').disabled=!s2;
+}
+
+function nextFormStep(n){
+  for(let i=1;i<=3;i++){
+    document.getElementById('formStep'+i).classList.toggle('active',i===n);
+  }
+  updateFormProgress(n);
+}
+
+function updateFormProgress(n){
+  const dots = document.querySelectorAll('#formProgress .dot');
+  dots.forEach((d,i)=>d.classList.toggle('active',i<n));
+}
+
+// ═══════════════════════════════════════
+// Password
+// ═══════════════════════════════════════
+let pwdTarget='';
+function checkPassword(name){
+  pwdTarget=name;
+  document.getElementById('pwdEmoji').textContent=name==='燃爆'?'🔥':'🍜';
+  document.getElementById('pwdTitle').textContent=name+' 的访问密码';
+  document.getElementById('pwdHint').textContent='请输入该学生的密码';
+  document.getElementById('pwdInput').value='';
+  document.getElementById('pwdDialog').classList.add('open');
+  setTimeout(()=>document.getElementById('pwdInput').focus(),100);
+}
+
+function closeDialog(){document.getElementById('pwdDialog').classList.remove('open')}
+
+function submitPassword(){
+  const pwd=document.getElementById('pwdInput').value.trim();
+  if(pwd==='F1-1402'){
+    closeDialog();
+    loadQuickUser(pwdTarget);
+  } else {
+    document.getElementById('pwdInput').style.borderColor='#ef4444';
+    document.getElementById('pwdHint').textContent='❌ 密码错误，请重试';
+    document.getElementById('pwdHint').style.color='#ef4444';
+  }
+}
+
+// ═══════════════════════════════════════
+// Load Quick User
+// ═══════════════════════════════════════
+function loadQuickUser(name){
+  currentUser=name;
+  chatUser=name;
+  document.getElementById('pageHome').style.display='none';
+  document.getElementById('customFormArea').classList.remove('active');
+  
+  const ra=document.getElementById('resultArea');
+  ra.classList.add('active');
+  document.getElementById('resultContent').innerHTML='<div class="loading-spinner"><div class="spinner"></div></div>';
+  
+  const data = name==='燃爆'?window._RANBAO:window._TINGBAO;
+  if(!data){
+    document.getElementById('resultContent').innerHTML='<div class="card"><div class="empty-state"><div class="icon">⚠️</div><p>数据未加载，请刷新页面重试</p></div></div>';
+    return;
+  }
+  
+  setTimeout(()=>{
+    renderQuickResult(data,name);
+    document.getElementById('chatFab').style.display='flex';
+  },300);
+}
+
+// ═══════════════════════════════════════
+// Render Quick Result
+// ═══════════════════════════════════════
+function renderQuickResult(d,name){
+  const emoji=name==='燃爆'?'🔥':'🍜';
+  const accent=name==='燃爆'?'#f97316':'#22c55e';
+  const borderCls=name==='燃爆'?'2px solid #f97316':'2px solid #22c55e';
+  
+  let html=`<div class="card fade-in" style="border-left:4px solid ${accent}">`;
+  
+  // Header
+  html+=`
+    <div class="section-header">
+      <span class="card-title">${emoji} ${d.user_name} <span style="font-size:12px;font-weight:400;color:#888">${d.user_school}</span></span>
+      <span class="back-btn" onclick="backHome()">← 返回</span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <span class="info-tag">🎯 ${d.estimated_score_min}-${d.estimated_score_max}分</span>
+      <span class="info-tag">省排 ${d.estimated_province_rank_min}-${d.estimated_province_rank_max}</span>
+      <span class="info-tag">${d.segment.level}</span>
+    </div>`;
+  
+  // Scores table
+  const scores=d.exam_scores||{};
+  const ranks=d.exam_ranks||{};
+  const schoolSize=d.school_size||500;
+  const subjects=Object.keys(scores);
+  if(subjects.length){
+    html+=`<table class="score-table"><tr><th>科目</th><th>分数</th><th>排名</th><th>评价</th></tr>`;
+    for(const s of subjects){
+      const r=ranks[s]||0;
+      const pct=r/schoolSize;
+      const badge=pct<=0.10?'badge-green':pct<=0.25?'badge-yellow':'badge-red';
+      const label=pct<=0.10?'✅ 优势':pct<=0.25?'➡️ 中等':'⚠️ 偏弱';
+      html+=`<tr><td>${s}</td><td>${scores[s]}</td><td>#${r}</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
+    }
+    html+=`</table>`;
+  }
+  
+  // ★★★ 三星推荐（最匹配用户目标的前3高校）
+  if(d.top3_unis&&d.top3_unis.length){
+    const stars={3:'★★★',2:'★★',1:'★'};
+    const colors={3:'#fbbf24',2:'#f59e0b',1:'#d97706'};
+    html+=`<div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;padding:14px;margin:12px 0">
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:#92400e">🏆 最推荐高校</div>`;
+    for(const u of d.top3_unis){
+      const s=u.stars||1;
+      html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #fde68a">
+        <span style="font-weight:500;font-size:13px;color:#1a1a2e">
+          <a href="#" onclick="showUniversityDetail('${u.name}',event)" style="color:#4a6cf7;text-decoration:none">${u.name}</a>
+        </span>
+        <span style="font-size:12px;color:${colors[s]};letter-spacing:2px">${stars[s]}</span>
+      </div>`;
+    }
+    html+=`<div style="font-size:10px;color:#92400e;margin-top:6px">💡 点击高校名称查看详情及知名校友</div></div>`;
+  }
+  
+  // Study advice
+  if(subjects.length){
+    const now=new Date();
+    const m=now.getMonth()+1,y=now.getFullYear();
+    let sem='';
+    if(y===2026&&m>=7&&m<=8) sem='高一升高二暑假';
+    else if(y===2026&&m>=9||y===2027&&m<=1) sem='高二上学期';
+    else if(y===2027&&m>=2&&m<=6) sem='高二下学期';
+    else if(y===2027&&m>=7&&m<=8) sem='高二升高三暑假';
+    else sem='当前学期';
+    
+    let entries=Object.keys(ranks).map(s=>({s,r:ranks[s],pct:ranks[s]/schoolSize}));
+    entries.sort((a,b)=>b.pct-a.pct);
+    let advices=[];
+    for(const e of entries){
+      if(e.pct>0.25){
+        if(e.s==='语文') advices.push(`📖 语文(#${e.r})是短板。每天30分钟阅读+每周1篇作文`);
+        else if(e.s==='英语') advices.push(`🇬🇧 英语(#${e.r})需强化。每天50词+2篇阅读`);
+        else if(e.s==='数学') advices.push(`📐 数学(#${e.r})中档题要稳。每天10道限时练`);
+        else advices.push(`${e.s}(#${e.r})偏弱，每天30分钟补基础`);
+      } else if(e.pct<=0.10){
+        if(e.s==='物理'&&name==='燃爆') advices.push(`⚡ 物理(#${e.r})是王牌！${sem}刷强基真题`);
+        else if(e.s==='地理'&&name==='挺饱') advices.push(`🌍 地理(#${e.r})是王牌！保持年级前30`);
+      }
+    }
+    const gen=name==='燃爆'?'语文突破为主，强基入门(数理)为辅':'英语提到130+，地理保持优势，物理跟上';
+    advices.push(`🎯 ${sem}重点：${gen}`);
+    
+    if(advices.length){
+      html+=`<div class="study-advice">
+        <div class="title">📋 ${sem}学习建议</div>`;
+      for(let i=0;i<Math.min(4,advices.length);i++) html+=`<div style="padding:2px 0">${advices[i]}</div>`;
+      html+=`</div>`;
+    }
+  }
+  
+  // Family
+  if(d.family_background){
+    html+=`<div style="background:#f0f9ff;border-radius:8px;padding:10px;margin:8px 0;font-size:12px;line-height:1.6">
+      <span style="font-weight:600">🏠 </span>${d.family_background}。${d.family_implication||''}</div>`;
+  }
+  
+  // Majors
+  if(d.majors&&d.majors.length){
+    html+=`<div class="card-title" style="margin-top:16px">🎯 推荐专业</div>`;
+    const colors={strong:'#dcfce7,#166534',recommend:'#eef2ff,#4a6cf7',normal:'#f1f5f9,#555'};
+    for(const m of d.majors){
+      if(!m.suitable) continue;
+      const c=m.priority.includes('强推')?colors.strong:m.priority.includes('推荐')?colors.recommend:colors.normal;
+      html+=`<div class="major-card">
+        <span class="m-priority" style="background:${c.split(',')[0]};color:${c.split(',')[1]}">${m.priority||'推荐'}</span>
+        <div class="m-name">${m.major}</div>`;
+      if(m.schools&&m.schools.length){
+        html+=`<div class="m-schools">🏫 ${m.schools.slice(0,3).map(s=>{const n=Array.isArray(s)?s[0]:(s.school||s);return `<a href="#" onclick="showUniversityDetail('${n}',event)">${n}</a>`;}).join('、')}</div>`;
+      }
+      html+=`<div class="m-reason">💡 ${m.reason||''}</div></div>`;
+    }
+  }
+  
+  // Timeline
+  if(d.timeline&&d.timeline.length){
+    html+=`<div class="card-title" style="margin-top:16px">📅 时间线</div>
+    <div class="timeline">`;
+    for(const t of d.timeline.slice(0,8)){
+      const events=t.events||[];
+      for(const e of events.slice(0,2)){
+        html+=`<div class="timeline-item">${e}</div>`;
+      }
+    }
+    html+=`</div>`;
+  }
+  
+  // Future Outlook
+  if(d.future_outlook){
+    const fo=d.future_outlook;
+    html+=`<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:12px;margin:12px 0;font-size:12px;line-height:1.7">
+      <div class="title" style="font-weight:600;color:#166534">🔭 未来10年行业前瞻</div>`;
+    if(fo.top_industries_10y){
+      for(const ind of fo.top_industries_10y.slice(0,4)){
+        html+=`<div style="padding:2px 0">• ${ind}</div>`;
+      }
+    }
+    html+=`</div>`;
+  }
+  
+  html+=`</div>`;
+  
+  document.getElementById('resultContent').innerHTML=html;
+}
+
+// ═══════════════════════════════════════
+// Custom Form Submit
+// ═══════════════════════════════════════
+async function submitCustomForm(){
+  const btn=document.querySelector('#formStep3 .btn');
+  btn.disabled=true;btn.textContent='⏳ 生成中...';
+  
+  const profile={
+    name:document.getElementById('fName').value,
+    school:document.getElementById('fSchool').value,
+    grade:document.getElementById('fGrade').value,
+    elective:document.getElementById('fSubjects').value.split(''),
+    estimated_score:parseInt(document.getElementById('fScore').value)||0,
+    school_size:parseInt(document.getElementById('fSize').value)||500,
+    exam_scores:{
+      '数学':parseInt(document.getElementById('fMath').value)||0,
+      '语文':parseInt(document.getElementById('fChinese').value)||0,
+      '英语':parseInt(document.getElementById('fEnglish').value)||0,
+      '物理':parseInt(document.getElementById('fPhysics').value)||0,
+      '化学':parseInt(document.getElementById('fChemistry').value)||0,
+      '生物':parseInt(document.getElementById('fBio').value)||0,
+    },
+    family_background:document.getElementById('fFamily').value,
+    interests:document.getElementById('fGoal').value,
+    life_direction:document.getElementById('fGoal').value,
+    target:document.getElementById('fTarget').value,
+  };
+  
+  try{
+    const resp=await fetch('/api/class_recommend',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(profile)
+    });
+    const data=await resp.json();
+    if(data.error){
+      alert('❌ '+data.error);
+      btn.disabled=false;btn.textContent='🚀 生成我的升学方案';
+      return;
+    }
+    currentUser='custom';
+    chatUser=data.user_name||'custom';
+    document.getElementById('customFormArea').classList.remove('active');
+    document.getElementById('resultArea').classList.add('active');
+    renderQuickResult(data,data.user_name);
+    document.getElementById('chatFab').style.display='flex';
+  }catch(e){
+    alert('网络错误，请稍后重试');
+    btn.disabled=false;btn.textContent='🚀 生成我的升学方案';
+  }
+}
+
+// ═══════════════════════════════════════
+// University Detail
+// ═══════════════════════════════════════
+function showUniversityDetail(name,e){
+  e.preventDefault();
+  const user=currentUser||'custom';
+  fetch('/api/university_detail?user='+encodeURIComponent(user)+'&name='+encodeURIComponent(name))
+    .then(r=>r.json())
+    .then(data=>{
+      const u=data.university||{};
+      let html='<div onclick="if(event.target===this)this.remove()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px">'+
+        '<div style="background:white;border-radius:16px;max-width:480px;width:100%;max-height:80vh;overflow-y:auto;padding:24px">';
+      html+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-size:18px;font-weight:600">${name}</span>
+        <span onclick="this.closest(\'div[style]\').remove()" style="cursor:pointer;font-size:20px;color:#888">✕</span>
+      </div>`;
+      if(u.level) html+=`<span class="info-tag">${u.level}</span>`;
+      if(u.city) html+=`<span class="info-tag">📍 ${u.province||''} ${u.city}</span>`;
+      if(data.admission_score) html+=`<span class="info-tag">🎯 2025广东: ${data.admission_score}分(位次${data.admission_rank})</span>`;
+      html+='<div style="margin:12px 0"></div>';
+      if(data.paths) data.paths.forEach(p=>{
+        const c=p.match==='冲刺'?'#fef2f2,#991b1b':p.match==='稳妥'?'#f0fdf4,#166534':'#f8f9fc,#555';
+        html+=`<div style="background:${c.split(',')[0]};border-radius:8px;padding:10px;margin:6px 0;font-size:12px;line-height:1.5">
+          <strong>${p.type}</strong> <span style="color:${c.split(',')[1]}">[${p.match}]</span>
+          <div style="color:#666">${p.detail||''}</div>
+          <div style="color:#888;font-size:11px;margin-top:4px">${p.prep||''}</div>
+        </div>`;
+      });
+      if(data.plan_data&&data.plan_data.current_tasks){
+        html+=`<div style="font-size:12px;font-weight:600;margin:8px 0 4px">📅 ${data.plan_data.current_semester||''} 任务：</div>`;
+        data.plan_data.current_tasks.filter(t=>t).forEach(t=>html+=`<div style="font-size:11px;padding:2px 0;color:#555">• ${t}</div>`);
+      }
+      if(data.alumni&&data.alumni.length){
+        html+=`<div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px">
+          <div style="font-weight:600;font-size:13px;margin-bottom:8px">🎓 知名校友（本科）</div>`;
+        data.alumni.forEach((a,i)=>{
+          html+=`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f1f5f9">
+            <div style="width:24px;height:24px;border-radius:50%;background:#4a6cf7;color:white;display:flex;align-items:center;justify-content:center;font-size:12px">${i+1}</div>
+            <div style="flex:1">
+              <a href="${a.url}" target="_blank" style="font-weight:600;font-size:13px;color:#4a6cf7;text-decoration:none">${a.name}</a>
+              <div style="font-size:11px;color:#666">${a.desc||''}</div>
+            </div>
+            <span style="font-size:10px;background:#eef2ff;color:#4a6cf7;padding:2px 6px;border-radius:6px">${a.type||''}</span>
+          </div>`;
+        });
+        html+=`<div style="font-size:10px;color:#888;margin-top:6px">💡 点击姓名查看百科</div></div>`;
+      
+      // 📊 就业数据
+      if(data.employment){
+        const e=data.employment;
+        html+=`<div style="margin-top:12px;border-top:1px solid #e2e8f0;padding-top:12px">
+          <div style="font-weight:600;font-size:13px;margin-bottom:8px">📊 就业数据（2025届本科）</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+            <div style="background:#f0f9ff;border-radius:8px;padding:10px;text-align:center">
+              <div style="color:#4a6cf7;font-size:18px;font-weight:700">${e.rate||'-'}</div>
+              <div style="color:#888;font-size:11px;margin-top:2px">毕业去向落实率</div>
+            </div>
+            <div style="background:#f0fdf4;border-radius:8px;padding:10px;text-align:center">
+              <div style="color:#16a34a;font-size:18px;font-weight:700">${e.salary||'-'}</div>
+              <div style="color:#888;font-size:11px;margin-top:2px">平均月薪(元)</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;line-height:1.6">
+            <div><strong>📍 就业城市：</strong><span style="color:#555">${e.cities||'-'}</span></div>
+            <div style="margin-top:4px"><strong>🏭 行业分布：</strong><span style="color:#555">${e.industries||'-'}</span></div>
+            <div style="margin-top:4px"><strong>🏢 主要雇主：</strong><span style="color:#555">${e.top_employers||'-'}</span></div>
+          </div>
+        </div>`;
+      }
+      }
+      html+='</div></div>';
+      const div=document.createElement('div');div.innerHTML=html;
+      document.body.appendChild(div);
+    }).catch(()=>{alert('加载失败');});
+}
+
+// ═══════════════════════════════════════
+// Chat
+// ═══════════════════════════════════════
+function toggleChat(){
+  const p=document.getElementById('chatPanel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')) document.getElementById('chatInput').focus();
+}
+
+function addChatMsg(text,isUser,moodClass){
+  const c=document.getElementById('chatMsgs');
+  const d=document.createElement('div');
+  d.className='chat-msg '+(isUser?'user':'bot');
+  const cls=moodClass?' mood-'+moodClass:'';
+  d.innerHTML='<div class="bubble'+cls+'">'+text.replace(/\n/g,'<br>')+'</div>';
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+}
+
+function sendMood(mood,moodClass){
+  _lastMoodClass=moodClass;
+  document.getElementById('chatInput').value='【现在心情：'+mood+'】';
+  sendChat();
+}
+
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const btn=document.getElementById('chatSendBtn');
+  const msg=input.value.trim();
+  if(!msg&&!pendingFile) return;
+  
+  const isMood=msg.startsWith('【现在心情：');
+  const moodClass=_lastMoodClass;
+  
+  addChatMsg(msg,true);
+  input.value='';
+  btn.disabled=true;
+  
+  const ld=document.createElement('div');
+  ld.className='chat-msg bot';
+  ld.innerHTML='<div class="bubble" style="background:#fef3c7;color:#92400e"><span class="typing-dots">🧠 思考中</span></div>';
+  ld.id='chatLoading';
+  document.getElementById('chatMsgs').appendChild(ld);
+  document.getElementById('chatMsgs').scrollTop=document.getElementById('chatMsgs').scrollHeight;
+  
+  try{
+    const resp=await fetch('/api/chat',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user:chatUser||'custom',message:msg})
+    });
+    const data=await resp.json();
+    const loading=document.getElementById('chatLoading');
+    if(loading) loading.remove();
+    if(data.reply){
+      addChatMsg(data.reply,false,isMood?moodClass:'');
+    } else if(data.saved){
+      addChatMsg('📝 '+(data.msg||'已发送'),false);
+    }
+  }catch(e){
+    document.getElementById('chatLoading')?.remove();
+    addChatMsg('网络出问题了，稍后再试。',false);
+  }
+  btn.disabled=false;
+  document.getElementById('chatInput').focus();
+}
+
+// ═══════════════════════════════════════
+// Init
+// ═══════════════════════════════════════
+setTimeout(()=>{
+  // Preload user data from window variables
+  document.getElementById('chatFab').style.display='none';
+},100);
+</script>
+</body>
+</html>
