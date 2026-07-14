@@ -584,6 +584,29 @@ class AdmissionRecommender:
         outlook["risk_warning"] = "；".join(risks) if risks else "你的选择方向目前风险可控"
         return outlook
 
+    def _compute_score_min(self, score, exam_ranks, school):
+        """根据分数、排名和学校计算分数范围下限（与JS引擎逻辑一致）"""
+        rank = 999
+        if exam_ranks:
+            vals = [v for v in exam_ranks.values() if v > 0]
+            if vals: rank = min(vals)
+        is_top_school = any(kw in school for kw in ["深中","深圳中学","实验","高级","外国","科学","科高","深科","红岭","育才","宝安","华附","省实","执信"])
+        if rank <= 3 and is_top_school:
+            return score - 5
+        return score - 15
+
+    def _compute_score_max(self, score, exam_ranks, school):
+        """根据分数、排名和学校计算分数范围上限"""
+        rank = 999
+        if exam_ranks:
+            vals = [v for v in exam_ranks.values() if v > 0]
+            if vals: rank = min(vals)
+        is_top_school = any(kw in school for kw in ["深中","深圳中学","实验","高级","外国","科学","科高","深科","红岭","育才","宝安","华附","省实","执信"])
+        if rank > 0 and rank <= 10 and is_top_school:
+            upward = max(0, (11 - rank)) * 3  # #2→27, #5→18
+            return min(score + upward + 15, score + 40)
+        return score + 15
+
     def generate_full_report(self):
         """生成完整推荐报告"""
         segment, segment_desc = self.score_to_segment()
@@ -634,8 +657,9 @@ class AdmissionRecommender:
             "school_size": self.user.get("school_size", 500),
             "estimated_province_rank_min": self.user.get("estimated_province_rank_min", 0),
             "estimated_province_rank_max": self.user.get("estimated_province_rank_max", 0),
-            "estimated_score_min": self.user.get("estimated_score_min", 0),
-            "estimated_score_max": self.user.get("estimated_score_max", 0),
+            # 以下为预估分数范围，如果profile中已有则使用，否则按rank+school推算
+            "estimated_score_min": self.user.get("estimated_score_min", self._compute_score_min(self.user.get("estimated_score", 0), self.user.get("exam_ranks", {}), self.user.get("school", ""))),
+            "estimated_score_max": self.user.get("estimated_score_max", self._compute_score_max(self.user.get("estimated_score", 0), self.user.get("exam_ranks", {}), self.user.get("school", ""))),
             "family_background": self.user.get("family_background", ""),
             "family_implication": self.user.get("family_implication", ""),
             "exam_scores": scores,

@@ -261,6 +261,19 @@ function generateFullReport(profile) {
   var scoreMin = profile.estimated_score_min || (score - 15);
   var scoreMax = profile.estimated_score_max || (score + 15);
   
+  // 考虑年级排名和学校实力，调整预估分数范围
+  var rank = profile.estimated_rank || 0;
+  var schoolName = profile.school || '';
+  var isTopSchool = /深中|深圳中学|实验|华附|省实|执信|高级|外国语|深圳科学|科高|深科|红岭|育才|宝安/ .test(schoolName);
+  var isGoodRank = rank > 0 && rank <= 10;
+  
+  if (isGoodRank && isTopSchool) {
+    // 强校+高排名 → 高考还有上升空间
+    var upwardFactor = Math.max(0, (11 - rank)) * 3; // #2 → +27, #5 → +18, #10 → +3
+    scoreMax = Math.max(scoreMax, score + Math.min(upwardFactor + 15, 40));
+    if (rank <= 3) scoreMin = score - 5; // top3下限收窄，不可能低太多
+  }
+  
   var cwb = getChongWenBao(profile);
   var qj = getQiangji(profile);
   var zp = getZongping(profile);
