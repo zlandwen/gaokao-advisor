@@ -268,13 +268,41 @@ function generateFullReport(profile) {
   var timeline = getTimeline(profile);
   var outlook = getFutureOutlook(profile);
   
-  // 省排名估算
-  var rankMin = 0, rankMax = 0;
-  if (score > 670) { rankMin = 100; rankMax = 1500; }
-  else if (score > 640) { rankMin = 1500; rankMax = 5000; }
-  else if (score > 610) { rankMin = 5000; rankMax = 15000; }
-  else if (score > 580) { rankMin = 15000; rankMax = 35000; }
-  else { rankMin = 35000; rankMax = 80000; }
+  // 省排名估算（结合学校实力）
+  // 同一分数在不同实力的高中 → 全省排名差异巨大
+  // 顶级高中（前100）→ 620分对应省排前5000
+  // 普通高中（前1000）→ 620分对应省排前50000
+  var schoolName = profile.school || '';
+  var isTopShenzhen = /深中|深圳中学|实验学校|深高级|深外|深圳外国语|红岭|育才|宝安中学|南山实验|科学高中|深科|深圳科学|深科高|华为学校|HUAWEI|科高/.test(schoolName);
+  var schoolMultiplier = 0.4; // 默认（普通高中）
+  if (isTopShenzhen) schoolMultiplier = 0.15; // 深圳头部高中，分数×15%=省排
+  else if (/深中|华附|执信|广雅|省实|二中|深圳中学|华师附中/.test(schoolName)) schoolMultiplier = 0.12; // 广州头部
+  
+  // 同时根据rank反推分数更合理
+  var schoolSize = profile.school_size || 500;
+  var userRank = profile.estimated_province_rank || 0;
+  
+  // 基础映射
+  var baseMin, baseMax;
+  if (score > 670) { baseMin = 100; baseMax = 1500; }
+  else if (score > 640) { baseMin = 1500; baseMax = 5000; }
+  else if (score > 610) { baseMin = 5000; baseMax = 15000; }
+  else if (score > 580) { baseMin = 15000; baseMax = 35000; }
+  else if (score > 550) { baseMin = 35000; baseMax = 65000; }
+  else if (score > 500) { baseMin = 65000; baseMax = 130000; }
+  else { baseMin = 130000; baseMax = 250000; }
+  
+  // 顶级高中时，rank比基础值更靠前
+  var rankMin = Math.round(baseMin * (isTopShenzhen ? 0.3 : 1));
+  var rankMax = Math.round(baseMax * (isTopShenzhen ? 0.3 : 1));
+  
+  // 强基/综评加分
+  var isHKMStudent = /深圳|广州|东莞|佛山|中山|珠海|惠州/.test(schoolName);
+  if (isHKMStudent && score > 600) {
+    // 大湾区学生强基/综评资源丰富，省排进一步靠前
+    rankMin = Math.round(rankMin * 0.85);
+    rankMax = Math.round(rankMax * 0.85);
+  }
   
   // 家庭背景解读
   var fam = profile.family_background || '';
