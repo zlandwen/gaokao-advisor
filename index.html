@@ -1125,19 +1125,19 @@ function refreshSavedUsers() {
         '<div style="font-size:10px;color:#aaa;margin-top:2px">上次更新: ' + last + '</div>' +
       '</div>' +
       '<div style="display:flex;gap:4px">' +
-        '<button class="btn btn-primary" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();loadSavedProfile(\'' + name + '\')">续</button>' +
+        '<button class="btn btn-primary" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();loadSavedProfile(\'' + name + '\')">➡</button>' +
+        '<button class="btn btn-outline" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();editSavedProfile(\'' + name + '\')">✏️</button>' +
         '<button class="btn btn-danger" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();if(confirm(\'删除' + name + '的档案？\'))deleteProfile(\'' + name + '\')">✕</button>' +
       '</div></div>';
   }
   list.innerHTML = html;
 }
 
-function loadSavedProfile(name) {
+
+function editSavedProfile(name) {
   var profile = loadProfile(name);
   if (!profile) { alert('档案不存在'); return; }
-  
   showCustomForm();
-  // 填充表单
   if (document.getElementById('fName')) document.getElementById('fName').value = profile.name || '';
   if (document.getElementById('fSchool')) document.getElementById('fSchool').value = profile.school || '';
   if (document.getElementById('fSubjects')) document.getElementById('fSubjects').value = profile.elective || '';
@@ -1148,16 +1148,37 @@ function loadSavedProfile(name) {
   if (document.getElementById('fFamily')) document.getElementById('fFamily').value = profile.family_background || '';
   if (document.getElementById('fGoal')) document.getElementById('fGoal').value = profile.interests || '';
   if (document.getElementById('fTarget')) document.getElementById('fTarget').value = profile.target || '';
-  
-  // 填充各科分数
   var scores = profile.exam_scores || {};
-  var scoreMap = {'数学':'fMath','语文':'fChinese','英语':'fEnglish','物理':'fPhysics','化学':'fChemistry','生物':'fBio'};
-  for (var subj in scores) {
-    var inputId = scoreMap[subj];
-    if (inputId && document.getElementById(inputId)) {
-      document.getElementById(inputId).value = scores[subj];
-    }
-  }
+  var m = {'数学':'fMath','语文':'fChinese','英语':'fEnglish','物理':'fPhysics','化学':'fChemistry','生物':'fBio'};
+  for (var s in scores) { var id = m[s]; if (id && document.getElementById(id)) document.getElementById(id).value = scores[s]; }
+}
+
+function loadSavedProfile(name) {
+  var profile = loadProfile(name);
+  if (!profile) { alert('档案不存在'); return; }
+  
+  // 直接用存档数据生成报告（不经过表单）
+  var data = generateFullReport({
+    name: profile.name,
+    school: profile.school,
+    grade: profile.grade || '高二',
+    elective: profile.elective || '',
+    estimated_score: profile.estimated_score || 600,
+    estimated_rank: profile.estimated_rank || 0,
+    school_size: profile.school_size || 500,
+    exam_scores: profile.exam_scores || {},
+    family_background: profile.family_background || '',
+    interests: profile.interests || '',
+    life_direction: profile.interests || '',
+    target: profile.target || ''
+  });
+  
+  currentUser = 'custom';
+  chatUser = data.user_name || 'custom';
+  document.getElementById('pageHome').style.display = 'none';
+  document.getElementById('resultArea').classList.add('active');
+  renderQuickResult(data, data.user_name);
+  document.getElementById('chatFab').style.display = 'flex';
 }
 
 // ═══════════════════════════════════════
