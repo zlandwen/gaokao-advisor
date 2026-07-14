@@ -1151,6 +1151,7 @@ function editSavedProfile(name) {
   var scores = profile.exam_scores || {};
   var m = {'数学':'fMath','语文':'fChinese','英语':'fEnglish','物理':'fPhysics','化学':'fChemistry','生物':'fBio'};
   for (var s in scores) { var id = m[s]; if (id && document.getElementById(id)) document.getElementById(id).value = scores[s]; }
+  checkForm(); // 触发按钮状态检查
 }
 
 function loadSavedProfile(name) {
