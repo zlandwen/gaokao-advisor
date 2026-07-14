@@ -606,6 +606,12 @@ function generateFullReport(profile) {
     </div>
   </div>
 
+  <!-- 👤 已保存的档案（localStorage） -->
+  <div class="card" id="savedProfilesCard" style="display:none;background:#fff8f0;border:1px solid #fbbf24">
+    <div class="card-title">📂 继续上次</div>
+    <div id="savedUsersList"></div>
+  </div>
+
   <!-- 燃爆和挺饱 → 小卡片在底部 -->
   <div style="display:flex;gap:10px;margin-bottom:10px">
     <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="checkPassword('燃爆')">
@@ -1031,6 +1037,130 @@ let shownAnswerIds = new Set();
 let formData = {};
 
 // ═══════════════════════════════════════
+// 用户档案系统 (localStorage)
+// ═══════════════════════════════════════
+function getSavedUsers() {
+  try { return JSON.parse(localStorage.getItem('gaokao_users') || '[]'); } catch(e) { return []; }
+}
+
+function saveUserList(names) {
+  localStorage.setItem('gaokao_users', JSON.stringify(names));
+}
+
+function saveProfile(profile) {
+  var name = profile.name || 'unknown';
+  var key = 'gaokao_profile_' + name;
+  var existing = loadProfile(name);
+  var now = new Date().toISOString().split('T')[0];
+  
+  // 时间线
+  var timeline = existing ? (existing.timeline || []) : [];
+  var lastEntry = timeline.length > 0 ? timeline[timeline.length - 1] : null;
+  var isSameDay = lastEntry && lastEntry.date === now && lastEntry.type === 'update';
+  
+  if (isSameDay) {
+    // 同一天更新：合并
+    lastEntry.data = profile;
+    lastEntry.data.school_size = profile.school_size;
+  } else {
+    timeline.push({ date: now, type: 'update', data: {
+      name: profile.name, school: profile.school, estimated_score: profile.estimated_score,
+      score: profile.estimated_score, rank: profile.estimated_province_rank_min || 0,
+      subjects: profile.exam_scores || {}
+    }});
+  }
+  
+  var saved = JSON.parse(JSON.stringify(profile));
+  saved.lastUpdated = now;
+  saved.timeline = timeline;
+  saved.version = 2;
+  localStorage.setItem(key, JSON.stringify(saved));
+  
+  // 更新用户列表
+  var users = getSavedUsers();
+  if (users.indexOf(name) < 0) {
+    users.push(name);
+    saveUserList(users);
+  }
+  
+  refreshSavedUsers();
+  return saved;
+}
+
+function loadProfile(name) {
+  try {
+    var data = localStorage.getItem('gaokao_profile_' + name);
+    return data ? JSON.parse(data) : null;
+  } catch(e) { return null; }
+}
+
+function deleteProfile(name) {
+  localStorage.removeItem('gaokao_profile_' + name);
+  var users = getSavedUsers().filter(function(u) { return u !== name; });
+  saveUserList(users);
+  refreshSavedUsers();
+}
+
+function refreshSavedUsers() {
+  var card = document.getElementById('savedProfilesCard');
+  var list = document.getElementById('savedUsersList');
+  if (!card || !list) return;
+  
+  var users = getSavedUsers();
+  if (users.length === 0) { card.style.display = 'none'; return; }
+  
+  card.style.display = 'block';
+  var html = '';
+  for (var i = 0; i < users.length; i++) {
+    var name = users[i];
+    var profile = loadProfile(name);
+    if (!profile) continue;
+    var last = profile.lastUpdated || '';
+    var score = profile.estimated_score || '?';
+    html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #fde68a">' +
+      '<div style="flex:1;cursor:pointer" onclick="loadSavedProfile(\'' + name + '\')">' +
+        '<span style="font-weight:600;font-size:13px;color:#1a1a2e">' + name + '</span>' +
+        '<span style="font-size:11px;color:#888;margin-left:8px">' + (profile.school || '') + '</span>' +
+        '<span style="font-size:11px;color:#aaa;margin-left:6px">' + score + '分</span>' +
+        '<div style="font-size:10px;color:#aaa;margin-top:2px">上次更新: ' + last + '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:4px">' +
+        '<button class="btn btn-primary" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();loadSavedProfile(\'' + name + '\')">续</button>' +
+        '<button class="btn btn-danger" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();if(confirm(\'删除' + name + '的档案？\'))deleteProfile(\'' + name + '\')">✕</button>' +
+      '</div></div>';
+  }
+  list.innerHTML = html;
+}
+
+function loadSavedProfile(name) {
+  var profile = loadProfile(name);
+  if (!profile) { alert('档案不存在'); return; }
+  
+  showCustomForm();
+  // 填充表单
+  if (document.getElementById('fName')) document.getElementById('fName').value = profile.name || '';
+  if (document.getElementById('fSchool')) document.getElementById('fSchool').value = profile.school || '';
+  if (document.getElementById('fSubjects')) document.getElementById('fSubjects').value = profile.elective || '';
+  if (document.getElementById('fGrade')) document.getElementById('fGrade').value = profile.grade || '高二';
+  if (document.getElementById('fScore')) document.getElementById('fScore').value = profile.estimated_score || '';
+  if (document.getElementById('fRank')) document.getElementById('fRank').value = profile.estimated_rank || '';
+  if (document.getElementById('fSize')) document.getElementById('fSize').value = profile.school_size || 500;
+  if (document.getElementById('fFamily')) document.getElementById('fFamily').value = profile.family_background || '';
+  if (document.getElementById('fGoal')) document.getElementById('fGoal').value = profile.interests || '';
+  if (document.getElementById('fTarget')) document.getElementById('fTarget').value = profile.target || '';
+  
+  // 填充各科分数
+  var scores = profile.exam_scores || {};
+  var scoreMap = {'数学':'fMath','语文':'fChinese','英语':'fEnglish','物理':'fPhysics','化学':'fChemistry','生物':'fBio'};
+  for (var subj in scores) {
+    var inputId = scoreMap[subj];
+    if (inputId && document.getElementById(inputId)) {
+      document.getElementById(inputId).value = scores[subj];
+    }
+  }
+}
+
+// ═══════════════════════════════════════
 // Navigation
 // ═══════════════════════════════════════
 function backHome(){
@@ -1049,6 +1179,7 @@ function showCustomForm(){
   document.getElementById('formStep2').classList.remove('active');
   document.getElementById('formStep3').classList.remove('active');
   updateFormProgress(1);
+  refreshSavedUsers();
 }
 
 function checkForm(){
@@ -1265,7 +1396,23 @@ function renderQuickResult(d,name){
     html+=`</div>`;
   }
   
-  html+=`</div>`;
+  // 📅 更新按钮 + 成长时间线
+  var username = d.user_name || 'custom';
+  var saved = loadProfile(username);
+  if (saved && saved.timeline && saved.timeline.length > 1) {
+    html+=`<div style="margin-top:12px;border-top:1px solid #e2e8f0;padding-top:10px">
+      <div style="font-weight:600;font-size:12px;margin-bottom:6px">📅 成长记录（${saved.timeline.length}次）</div>`;
+    for (var ti = Math.max(0, saved.timeline.length - 3); ti < saved.timeline.length; ti++) {
+      var ev = saved.timeline[ti];
+      html+=`<div style="font-size:11px;padding:3px 0;color:#666">• ${ev.date}: 更新档案</div>`;
+    }
+    html+=`</div>`;
+  }
+  
+  html+=`<div style="display:flex;gap:8px;margin-top:12px">
+    <button class="btn btn-outline btn-block" style="flex:1;font-size:12px" onclick="showCustomForm()">✏️ 更新档案</button>
+    <button class="btn btn-primary btn-block" style="flex:1;font-size:12px" onclick="backHome()">🏠 返回首页</button>
+  </div>`;
   
   document.getElementById('resultContent').innerHTML=html;
 }
@@ -1283,6 +1430,7 @@ async function submitCustomForm(){
     grade:document.getElementById('fGrade').value,
     elective:document.getElementById('fSubjects').value.split(''),
     estimated_score:parseInt(document.getElementById('fScore').value)||0,
+    estimated_rank:parseInt(document.getElementById('fRank').value)||0,
     school_size:parseInt(document.getElementById('fSize').value)||500,
     exam_scores:{
       '数学':parseInt(document.getElementById('fMath').value)||0,
@@ -1307,6 +1455,7 @@ async function submitCustomForm(){
     document.getElementById('resultArea').classList.add('active');
     renderQuickResult(data,data.user_name);
     document.getElementById('chatFab').style.display='flex';
+    saveProfile(profile); // 保存档案
   } catch(e) {
     // 离线失败，尝试API
     try {
@@ -1474,6 +1623,8 @@ async function sendChat(){
 setTimeout(()=>{
   // Preload user data from window variables
   document.getElementById('chatFab').style.display='none';
+  // 加载已保存的用户档案列表
+  refreshSavedUsers();
 },100);
 </script>
 </body>
